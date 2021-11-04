@@ -93,7 +93,6 @@ import {
 import { formatTimeToStr } from '@/utils/date'
 import infoList from '@/mixins/infoList'
 import * as vars from '@/view/things/device/vars'
-import {DELETE} from "@/view/things/device/vars";
 export default {
   name: 'DeviceInfo',
   filters: {

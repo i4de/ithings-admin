@@ -146,7 +146,6 @@ import {
 import { formatTimeToStr } from '@/utils/date'
 import infoList from '@/mixins/infoList'
 import * as vars from '@/view/things/device/vars'
-import {manageDeviceInfo} from "@/api/things/deviceInfo";
 export default {
   name: 'ProductInfo',
   filters: {
