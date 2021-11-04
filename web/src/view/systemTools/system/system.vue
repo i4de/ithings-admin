@@ -33,6 +33,12 @@
             <el-input-number v-model.number="config.system.iplimitTime" />
           </el-form-item>
         </el-collapse-item>
+        <el-collapse-item title="things配置" name="6">
+          <el-form-item label="网关地址">
+            <el-input v-model="config.webapi.addr" />
+          </el-form-item>
+        </el-collapse-item>
+
         <el-collapse-item title="jwt签名" name="2">
           <el-form-item label="jwt签名">
             <el-input v-model="config.jwt.signingKey" />
@@ -319,6 +325,7 @@ export default {
       config: {
         system: {},
         jwt: {},
+        webapi:{},
         casbin: {},
         mysql: {},
         excel: {},

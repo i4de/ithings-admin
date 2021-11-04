@@ -19,4 +19,5 @@ type Server struct {
 	TencentCOS TencentCOS `mapstructure:"tencent-cos" json:"tencentCOS" yaml:"tencent-cos"`
 	Excel      Excel      `mapstructure:"excel" json:"excel" yaml:"excel"`
 	Timer      Timer      `mapstructure:"timer" json:"timer" yaml:"timer"`
+	Webapi      Webapi      `mapstructure:"webapi" json:"webapi" yaml:"webapi"`
 }

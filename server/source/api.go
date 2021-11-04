@@ -93,6 +93,12 @@ var apis = []system.SysApi{
 	{global.GVA_MODEL{ID: 89, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/autoCode/delSysHistory", "删除回滚记录", "autoCode", "POST"},
 	{global.GVA_MODEL{ID: 90, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/user/setUserAuthorities", "设置权限组", "user", "POST"},
 	{global.GVA_MODEL{ID: 91, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/user/getUserInfo", "获取自身信息（必选）", "user", "GET"},
+	{global.GVA_MODEL{ID: 200, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/findProductInfo", "根据ID获取productInfo表", "设备管理", "GET"},
+	{global.GVA_MODEL{ID: 201, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/getProductInfoList", "获取productInfo表列表", "设备管理", "GET"},
+	{global.GVA_MODEL{ID: 202, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/manageProductInfo", "新增修改删除产品信息", "设备管理", "POST"},
+	{global.GVA_MODEL{ID: 203, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/findDeviceInfo", "根据ID获取设备信息", "设备管理", "GET"},
+	{global.GVA_MODEL{ID: 204, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/getDeviceInfoList", "设备列表", "设备管理", "GET"},
+	{global.GVA_MODEL{ID: 205, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/manageDeviceInfo", "新增修改删除设备信息", "设备管理", "POST"},
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)

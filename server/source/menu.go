@@ -39,6 +39,9 @@ var menus = []system.SysBaseMenu{
 	{GVA_MODEL: global.GVA_MODEL{ID: 23, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "0", Path: "state", Name: "state", Hidden: false, Component: "view/system/state.vue", Sort: 6, Meta: system.Meta{Title: "服务器状态", Icon: "cloudy"}},
 	{GVA_MODEL: global.GVA_MODEL{ID: 24, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "14", Path: "autoCodeAdmin", Name: "autoCodeAdmin", Hidden: false, Component: "view/systemTools/autoCodeAdmin/index.vue", Sort: 1, Meta: system.Meta{Title: "自动化代码管理", Icon: "s-finance"}},
 	{GVA_MODEL: global.GVA_MODEL{ID: 25, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "14", Path: "autoCodeEdit/:id", Name: "autoCodeEdit", Hidden: true, Component: "view/systemTools/autoCode/index.vue", Sort: 0, Meta: system.Meta{Title: "自动化代码（复用）", Icon: "s-finance"}},
+	{GVA_MODEL: global.GVA_MODEL{ID: 201, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "0", Path: "  things", Name: "  things", Hidden: false, Component: "view/things/device/index.vue", Sort: 2, Meta: system.Meta{Title: "物联网", Icon: "upload"}},
+	{GVA_MODEL: global.GVA_MODEL{ID: 202, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "201", Path: "productInfo", Name: "productInfo", Hidden: false, Component: "view/things/device/productInfo/productInfo.vue", Sort: 2, Meta: system.Meta{Title: "产品管理", Icon: "goods"}},
+	{GVA_MODEL: global.GVA_MODEL{ID: 203, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "201", Path: "deviceInfo", Name: "deviceInfo", Hidden: true, Component: "view/things/device/deviceInfo/deviceInfo.vue", Sort: 2, Meta: system.Meta{Title: "设备管理", Icon: "headset"}},
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)
