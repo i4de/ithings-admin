@@ -24,6 +24,15 @@
       :data="tableData"
       @selection-change="handleSelectionChange"
     >
+      <el-table-column type="expand">
+        <template #default="props">
+          <el-form label-position="left" inline>
+            <el-form-item label="数据模板">
+              <span>{{ props.row.template }}</span>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
       <el-table-column label="产品名称" prop="productName" width="120">
         <template #default="scope">
           <el-button :plain="true" type="text" @click="goInProduct(scope.row)">{{ scope.row.productName }}</el-button>
@@ -127,6 +136,9 @@
         </el-form-item>
         <el-form-item label="描述:">
           <el-input v-model="formData.description" clearable placeholder="请输入" />
+        </el-form-item>
+        <el-form-item label="数据模板:">
+          <el-input v-model="formData.template" type="textarea" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -233,7 +245,6 @@ export default {
       this.AuthModeArr = vars.AuthMode
     },
     fmtData(values) {
-      console.log(values)
       var ret = []
       for (var k = 1, length = values.length; k < length; k++) {
         ret.push({
@@ -241,7 +252,6 @@ export default {
           label: values[k]
         })
       }
-      console.log(ret)
       return ret
     },
     fmtDate(time) {

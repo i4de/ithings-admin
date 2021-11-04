@@ -28,7 +28,9 @@
       <el-table-column label="设备名称" prop="deviceName" width="120" />
       <el-table-column label="设备秘钥" prop="secret" width="120" />
       <el-table-column label="固件版本" prop="version" width="120" />
-      <el-table-column label="日志级别" prop="logLevel" width="120" />
+      <el-table-column label="日志级别" width="120">
+        <template #default="scope">{{ LogLevelArr[scope.row.logLevel] }}</template>
+      </el-table-column>
       <el-table-column label="激活时间" prop="firstLogin" width="120">
         <template #default="scope">{{ fmtDate(scope.row.firstLogin) }}</template>
       </el-table-column>
@@ -121,6 +123,7 @@ export default {
       deleteVisible: false,
       multipleSelection: [],
       productInfo: {},
+      LogLevelArr: [],
       LogLevel: [{
         value: 0,
         label: '不修改'
@@ -149,10 +152,11 @@ export default {
     },
     fmtAllData() {
       this.LogLevel = this.fmtData(vars.LogLevel)
+      this.LogLevelArr = vars.LogLevel
     },
     fmtData(values) {
       var ret = []
-      for (var k = 0, length = values.length; k < length; k++) {
+      for (var k = 1, length = values.length; k < length; k++) {
         ret.push({
           value: k,
           label: values[k]

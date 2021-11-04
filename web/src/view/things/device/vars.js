@@ -62,7 +62,7 @@ export const DataProto = ['未定义', '自定义', '数据模板']
 }*/
 
 export const AutoRegister = ['未定义', '关闭', '打开', '打开并自动创建设备']
-export const LogLevel = ['未定义', '关闭', '错误', '告警', '信息', '调试']
+export const LogLevel = ['关闭', '关闭', '错误', '告警', '信息', '调试']
 
 export default {
   AutoRegister,
