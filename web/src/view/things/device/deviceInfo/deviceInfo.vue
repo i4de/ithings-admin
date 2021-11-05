@@ -60,7 +60,7 @@
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
         <el-form-item label="设备名称:">
-          <el-input v-model="formData.deviceName" disabled />
+          <el-input v-model="formData.deviceName" />
         </el-form-item>
         <el-form-item label="固件版本:">
 
