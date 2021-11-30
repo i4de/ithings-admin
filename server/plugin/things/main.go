@@ -13,7 +13,6 @@ type thingsPlugin struct {
 func CreateThingsPlugin(webapiAddr string) *thingsPlugin {
 	global.GlobalConfig.Addr = webapiAddr
 	return &thingsPlugin{}
-
 }
 
 func (*thingsPlugin) Register(group *gin.RouterGroup) {
