@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="search-term">
-      <el-row justify="center">
+      <el-row justify="">
         <el-col :span="12">
           <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
             <el-form-item>
@@ -18,9 +18,10 @@
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col :span="4">产品名称:{{productInfo.productName}}</el-col>
-        <el-col :span="4">产品ID:{{productInfo.productID}}</el-col>
-        <el-col :span="4"></el-col>
+<!--        "margin-left: -500px; margin-top: 15px"-->
+        <el-col :span="4" style="margin-left: -20rem; margin-top: 1rem" >产品名称:{{productInfo.productName}}</el-col>
+        <el-col :span="4" style=" margin-top: 1rem">产品ID:{{productInfo.productID}}</el-col>
+        <el-col :span="8"></el-col>
       </el-row>
 
     </div>
