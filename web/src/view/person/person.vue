@@ -6,29 +6,56 @@
           <div class="user-card">
             <div class="user-headpic-update" :style="{ 'background-image': `url(${(userInfo.headerImg && userInfo.headerImg.slice(0, 4) !== 'http')?path+userInfo.headerImg:userInfo.headerImg})`,'background-repeat':'no-repeat','background-size':'cover' }">
               <span class="update" @click="openChooseImg">
-                <i class="el-icon-edit" />
+                <el-icon>
+                  <edit />
+                </el-icon>
                 重新上传</span>
             </div>
             <div class="user-personality">
-              <p class="nickname">{{ userInfo.nickName }}</p>
+              <p v-if="!editFlag" class="nickName">{{ userInfo.nickName }}
+                <el-icon class="pointer" color="#66b1ff" @click="openEidt">
+                  <edit />
+                </el-icon>
+              </p>
+              <p v-if="editFlag" class="nickName">
+                <el-input v-model="nickName" />
+                <el-icon class="pointer" color="#67c23a" @click="enterEdit">
+                  <check />
+                </el-icon>
+                <el-icon class="pointer" color="#f23c3c" @click="closeEdit">
+                  <close />
+                </el-icon>
+              </p>
               <p class="person-info">这个家伙很懒，什么都没有留下</p>
             </div>
             <div class="user-information">
               <ul>
                 <li>
-                  <i class="el-icon-user" />{{ userInfo.nickName }}
+                  <el-icon>
+                    <user />
+                  </el-icon>
+                  {{ userInfo.nickName }}
                 </li>
                 <el-tooltip class="item" effect="light" content="北京反转极光科技有限公司-技术部-前端事业群" placement="top">
                   <li>
-                    <i class="el-icon-data-analysis" />北京反转极光科技有限公司-技术部-前端事业群
+                    <el-icon>
+                      <data-analysis />
+                    </el-icon>
+                    北京反转极光科技有限公司-技术部-前端事业群
                   </li>
                 </el-tooltip>
                 <li>
-                  <i class="el-icon-video-camera-solid" />中国·北京市·朝阳区
+                  <el-icon>
+                    <video-camera />
+                  </el-icon>
+                  中国·北京市·朝阳区
                 </li>
                 <el-tooltip class="item" effect="light" content="GoLang/JavaScript/Vue/Gorm" placement="top">
                   <li>
-                    <i class="el-icon-medal-1" />GoLang/JavaScript/Vue/Gorm
+                    <el-icon>
+                      <medal />
+                    </el-icon>
+                    GoLang/JavaScript/Vue/Gorm
                   </li>
                 </el-tooltip>
 
@@ -118,6 +145,8 @@ export default {
       activeName: 'second',
       showPassword: false,
       pwdModify: {},
+      nickName: '',
+      editFlag: false,
       rules: {
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
@@ -188,6 +217,26 @@ export default {
         })
       }
     },
+    openEidt() {
+      this.nickName = this.userInfo.nickName
+      this.editFlag = true
+    },
+    closeEdit() {
+      this.nickName = ''
+      this.editFlag = false
+    },
+    async enterEdit() {
+      const res = await setUserInfo({ nickName: this.nickName, ID: this.userInfo.ID })
+      if (res.code === 0) {
+        this.ResetUserInfo({ nickName: this.nickName })
+        this.$message({
+          type: 'success',
+          message: '设置成功'
+        })
+      }
+      this.nickName = ''
+      this.editFlag = false
+    },
     handleClick(tab, event) {
       console.log(tab, event)
     }
@@ -236,7 +285,10 @@ export default {
       p {
         font-size: 16px;
       }
-      .nickname {
+      .nickName {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         font-size: 26px;
       }
       .person-info{
@@ -313,5 +365,8 @@ export default {
       text-align: center;
       color:transparent;
     }
+  }
+  .pointer{
+    cursor: pointer;
   }
 </style>

@@ -13,6 +13,7 @@
           <el-form-item label="数据库类型">
             <el-select v-model="config.system.dbType" style="width:100%">
               <el-option value="mysql" />
+              <el-option value="pgsql" />
             </el-select>
           </el-form-item>
           <el-form-item label="Oss类型">
@@ -21,6 +22,7 @@
               <el-option value="qiniu" />
               <el-option value="tencent-cos" />
               <el-option value="aliyun-oss" />
+              <el-option value="huawei-obs" />
             </el-select>
           </el-form-item>
           <el-form-item label="多点登录拦截">
@@ -168,6 +170,29 @@
               <el-checkbox v-model="config.mysql.logMode" />
             </el-form-item>
           </template>
+          <template v-if="config.system.dbType === 'pgsql'">
+            <el-form-item label="username">
+              <el-input v-model="config.pgsql.username" />
+            </el-form-item>
+            <el-form-item label="password">
+              <el-input v-model="config.pgsql.password" />
+            </el-form-item>
+            <el-form-item label="path">
+              <el-input v-model="config.pgsql.path" />
+            </el-form-item>
+            <el-form-item label="dbname">
+              <el-input v-model="config.pgsql.dbname" />
+            </el-form-item>
+            <el-form-item label="maxIdleConns">
+              <el-input v-model.number="config.pgsql.maxIdleConns" />
+            </el-form-item>
+            <el-form-item label="maxOpenConns">
+              <el-input v-model.number="config.pgsql.maxOpenConns" />
+            </el-form-item>
+            <el-form-item label="logMode">
+              <el-checkbox v-model="config.pgsql.logMode" />
+            </el-form-item>
+          </template>
         </el-collapse-item>
 
         <el-collapse-item title="oss配置" name="10">
@@ -238,6 +263,24 @@
             </el-form-item>
             <el-form-item label="bucketUrl">
               <el-input v-model="config.aliyunOSS.bucketUrl" />
+            </el-form-item>
+          </template>
+          <template v-if="config.system.ossType === 'huawei-obs'">
+            <h2>华为云Obs上传配置</h2>
+            <el-form-item label="path">
+              <el-input v-model="config.huaWeiObs.path" />
+            </el-form-item>
+            <el-form-item label="bucket">
+              <el-input v-model="config.huaWeiObs.bucket" />
+            </el-form-item>
+            <el-form-item label="endpoint">
+              <el-input v-model="config.huaWeiObs.endpoint" />
+            </el-form-item>
+            <el-form-item label="accessKey">
+              <el-input v-model="config.huaWeiObs.AccessKey" />
+            </el-form-item>
+            <el-form-item label="secretKey">
+              <el-input v-model="config.huaWeiObs.secretKey" />
             </el-form-item>
           </template>
 
@@ -328,12 +371,14 @@ export default {
         webapi:{},
         casbin: {},
         mysql: {},
+        pgsql: {},
         excel: {},
         autoCode: {},
         redis: {},
         qiniu: {},
         tencentCOS: {},
         aliyunOSS: {},
+        huaWeiObs: {},
         captcha: {},
         zap: {},
         local: {},

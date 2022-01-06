@@ -1,9 +1,10 @@
 package middleware
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/utils"
 	"strconv"
 	"time"
+
+	"github.com/flipped-aurora/gin-vue-admin/server/utils"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
@@ -58,7 +59,7 @@ func JWTAuth() gin.HandlerFunc {
 			if global.GVA_CONFIG.System.UseMultipoint {
 				err, RedisJwtToken := jwtService.GetRedisJWT(newClaims.Username)
 				if err != nil {
-					global.GVA_LOG.Error("get redis jwt failed", zap.Any("err", err))
+					global.GVA_LOG.Error("get redis jwt failed", zap.Error(err))
 				} else { // 当之前的取成功时才进行拉黑操作
 					_ = jwtService.JsonInBlacklist(system.JwtBlacklist{Jwt: RedisJwtToken})
 				}

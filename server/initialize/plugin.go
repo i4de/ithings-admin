@@ -34,5 +34,4 @@ func InstallPlugin(PublicGroup *gin.RouterGroup, PrivateGroup *gin.RouterGroup) 
 		global.GVA_CONFIG.Email.Port,
 		global.GVA_CONFIG.Email.IsSSL,
 	))
-
 }

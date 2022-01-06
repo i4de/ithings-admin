@@ -9,17 +9,26 @@
             <el-row>
               <el-col :span="8" :xs="24" :sm="8">
                 <div class="flex-center">
-                  <i class="el-icon-sort icon" />今日流量 (1231231)
+                  <el-icon class="dasboard-icon">
+                    <sort />
+                  </el-icon>
+                  今日流量 (1231231)
                 </div>
               </el-col>
               <el-col :span="8" :xs="24" :sm="8">
                 <div class="flex-center">
-                  <i class="el-icon-s-custom icon" />总用户数 (24001)
+                  <el-icon class="dasboard-icon">
+                    <avatar />
+                  </el-icon>
+                  总用户数 (24001)
                 </div>
               </el-col>
               <el-col :span="8" :xs="24" :sm="8">
                 <div class="flex-center">
-                  <i class="el-icon-s-comment icon" />好评率 (99%)
+                  <el-icon class="dasboard-icon">
+                    <comment />
+                  </el-icon>
+                  好评率 (99%)
                 </div>
               </el-col>
             </el-row>
@@ -43,7 +52,7 @@
             </div>
           </div>
         </div>
-        <img src="@/assets/dashbord.png" class="gva-top-card-right" alt>
+        <img src="@/assets/dashboard.png" class="gva-top-card-right" alt>
       </div>
     </div>
     <div class="gva-card-box">
@@ -64,7 +73,9 @@
           >
             <div class="quick-entrance-item">
               <div class="quick-entrance-item-icon" :style="{ backgroundColor: card.bg }">
-                <i :class="card.icon" :style="{ color: card.color }" />
+                <el-icon>
+                  <component :is="card.icon" :style="{ color: card.color }" />
+                </el-icon>
               </div>
               <p>{{ card.label }}</p>
             </div>
@@ -84,7 +95,7 @@
               <echarts-line />
             </el-col>
             <el-col :xs="24" :sm="6">
-              <dashbord-table />
+              <dashboard-table />
             </el-col>
           </el-row>
         </div>
@@ -93,55 +104,55 @@
   </div>
 </template>
 <script>
-import echartsLine from '@/view/dashboard/dashbordCharts/echartsLine.vue'
-import dashbordTable from '@/view/dashboard/dashbordTable/dashbordTable.vue'
+import echartsLine from '@/view/dashboard/dashboardCharts/echartsLine.vue'
+import dashboardTable from '@/view/dashboard/dashboardTable/dashboardTable.vue'
 export default {
   name: 'Dashboard',
   components: {
     echartsLine,
-    dashbordTable
+    dashboardTable
   },
   data() {
     return {
       toolCards: [
         {
           label: '用户管理',
-          icon: 'el-icon el-icon-monitor',
+          icon: 'monitor',
           name: 'user',
           color: '#ff9c6e',
           bg: 'rgba(255, 156, 110,.3)'
         },
         {
           label: '角色管理',
-          icon: 'el-icon el-icon-setting',
+          icon: 'setting',
           name: 'authority',
           color: '#69c0ff',
           bg: 'rgba(105, 192, 255,.3)'
         },
         {
           label: '菜单管理',
-          icon: 'el-icon el-icon-menu',
+          icon: 'menu',
           name: 'menu',
           color: '#b37feb',
           bg: 'rgba(179, 127, 235,.3)'
         },
         {
           label: '代码生成器',
-          icon: ' el-icon-cpu',
+          icon: 'cpu',
           name: 'autoCode',
           color: '#ffd666',
           bg: 'rgba(255, 214, 102,.3)'
         },
         {
           label: '表单生成器',
-          icon: 'el-icon-document-checked',
+          icon: 'document-checked',
           name: 'formCreate',
           color: '#ff85c0',
           bg: 'rgba(255, 133, 192,.3)'
         },
         {
           label: '关于我们',
-          icon: ' el-icon-user',
+          icon: 'user',
           name: 'about',
           color: '#5cdbd3',
           bg: 'rgba(92, 219, 211,.3)'
@@ -271,7 +282,7 @@ export default {
       padding: 14px;
     }
 }
-.icon {
+.dasboard-icon {
     font-size: 20px;
     color: rgb(85, 160, 248);
     width: 30px;
@@ -307,7 +318,7 @@ export default {
                 line-height: 20px;
             }
         }
-        .icon {
+        .dasboard-icon {
             font-size: 18px;
         }
     }

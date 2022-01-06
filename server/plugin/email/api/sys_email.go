@@ -9,8 +9,7 @@ import (
 	"go.uber.org/zap"
 )
 
-type EmailApi struct {
-}
+type EmailApi struct{}
 
 // @Tags System
 // @Summary 发送测试邮件
@@ -20,7 +19,7 @@ type EmailApi struct {
 // @Router /email/emailTest [post]
 func (s *EmailApi) EmailTest(c *gin.Context) {
 	if err := service.ServiceGroupApp.EmailTest(); err != nil {
-		global.GVA_LOG.Error("发送失败!", zap.Any("err", err))
+		global.GVA_LOG.Error("发送失败!", zap.Error(err))
 		response.FailWithMessage("发送失败", c)
 	} else {
 		response.OkWithData("发送成功", c)
@@ -38,7 +37,7 @@ func (s *EmailApi) SendEmail(c *gin.Context) {
 	var email email_response.Email
 	_ = c.ShouldBindJSON(&email)
 	if err := service.ServiceGroupApp.SendEmail(email.To, email.Subject, email.Body); err != nil {
-		global.GVA_LOG.Error("发送失败!", zap.Any("err", err))
+		global.GVA_LOG.Error("发送失败!", zap.Error(err))
 		response.FailWithMessage("发送失败", c)
 	} else {
 		response.OkWithData("发送成功", c)

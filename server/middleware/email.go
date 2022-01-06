@@ -1,11 +1,12 @@
 package middleware
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/plugin/email/utils"
-	utils2 "github.com/flipped-aurora/gin-vue-admin/server/utils"
 	"io/ioutil"
 	"strconv"
 	"time"
+
+	"github.com/flipped-aurora/gin-vue-admin/server/plugin/email/utils"
+	utils2 "github.com/flipped-aurora/gin-vue-admin/server/utils"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
@@ -49,7 +50,7 @@ func ErrorToEmail() gin.HandlerFunc {
 		if status != 200 {
 			subject := username + "" + record.Ip + "调用了" + record.Path + "报错了"
 			if err := utils.ErrorToEmail(subject, str); err != nil {
-				global.GVA_LOG.Error("ErrorToEmail Failed, err:", zap.Any("err", err))
+				global.GVA_LOG.Error("ErrorToEmail Failed, err:", zap.Error(err))
 			}
 		}
 	}

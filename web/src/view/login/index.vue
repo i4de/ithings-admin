@@ -7,7 +7,7 @@
             class="login_panle_form_title_logo"
             :src="$GIN_VUE_ADMIN.appLogo"
             alt
-          />
+          >
           <p class="login_panle_form_title_p">{{ $GIN_VUE_ADMIN.appName }}</p>
         </div>
         <el-form
@@ -19,7 +19,11 @@
           <el-form-item prop="username">
             <el-input v-model="loginForm.username" placeholder="请输入用户名">
               <template #suffix>
-                <i class="el-input__icon el-icon-user" />
+                <span class="input-icon">
+                  <el-icon>
+                    <user />
+                  </el-icon>
+                </span>
               </template>
             </el-input>
           </el-form-item>
@@ -30,10 +34,9 @@
               placeholder="请输入密码"
             >
               <template #suffix>
-                <i
-                  :class="'el-input__icon el-icon-' + lock"
-                  @click="changeLock"
-                />
+                <span class="input-icon">
+                  <el-icon><component :is="lock" @click="changeLock" /></el-icon>
+                </span>
               </template>
             </el-input>
           </el-form-item>
@@ -50,40 +53,41 @@
                 :src="picPath"
                 alt="请输入验证码"
                 @click="loginVerify()"
-              />
+              >
             </div>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" style="width: 46%" @click="checkInit"
-              >前往初始化</el-button
-            >
+            <el-button
+              type="primary"
+              style="width: 46%"
+              @click="checkInit"
+            >前往初始化</el-button>
             <el-button
               type="primary"
               style="width: 46%; margin-left: 8%"
               @click="submitForm"
-              >登 录</el-button
-            >
+            >登 录</el-button>
           </el-form-item>
         </el-form>
       </div>
       <div class="login_panle_right" />
       <div class="login_panle_foot">
         <div class="links">
-          <a href="http://doc.henrongyi.top/">
-            <img src="@/assets/docs.png" class="link-icon" />
+          <a href="http://doc.henrongyi.top/" target="_blank">
+            <img src="@/assets/docs.png" class="link-icon">
           </a>
-          <a href="https://www.yuque.com/flipped-aurora/">
-            <img src="@/assets/yuque.png" class="link-icon" />
+          <a href="https://support.qq.com/product/371961" target="_blank">
+            <img src="@/assets/kefu.png" class="link-icon">
           </a>
-          <a href="https://github.com/flipped-aurora/gin-vue-admin">
-            <img src="@/assets/github.png" class="link-icon" />
+          <a href="https://github.com/flipped-aurora/gin-vue-admin" target="_blank">
+            <img src="@/assets/github.png" class="link-icon">
           </a>
-          <a href="https://space.bilibili.com/322210472">
-            <img src="@/assets/video.png" class="link-icon" />
+          <a href="https://space.bilibili.com/322210472" target="_blank">
+            <img src="@/assets/video.png" class="link-icon">
           </a>
         </div>
         <div class="copyright">
-          Copyright &copy; {{ curYear }} 💖 flipped-aurora
+          <bootomInfo />
         </div>
       </div>
     </div>
@@ -93,8 +97,12 @@
 import { mapActions } from 'vuex'
 import { captcha } from '@/api/user'
 import { checkDB } from '@/api/initdb'
+import bootomInfo from '@/view/layout/bottomInfo/bottomInfo.vue'
 export default {
   name: 'Login',
+  components: {
+    bootomInfo
+  },
   data() {
     const checkUsername = (rule, value, callback) => {
       if (value.length < 5) {
@@ -111,7 +119,6 @@ export default {
       }
     }
     return {
-      curYear: 0,
       lock: 'lock',
       loginForm: {
         username: 'admin',
@@ -124,8 +131,6 @@ export default {
         password: [{ validator: checkPassword, trigger: 'blur' }],
         captcha: [{ required: true, message: '请输入验证码', trigger: 'blur' },
           {
-            min: 5,
-            max: 6,
             message: '验证码格式不正确',
             trigger: 'blur',
           }]
@@ -136,7 +141,6 @@ export default {
   },
   created() {
     this.loginVerify()
-    this.curYear = new Date().getFullYear()
   },
   methods: {
     ...mapActions('user', ['LoginIn']),
@@ -180,6 +184,8 @@ export default {
     },
     loginVerify() {
       captcha({}).then((ele) => {
+        this.rules.captcha[1].max = ele.data.captchaLength
+        this.rules.captcha[1].min = ele.data.captchaLength
         this.picPath = ele.data.picPath
         this.loginForm.captchaId = ele.data.captchaId
       })
@@ -188,9 +194,6 @@ export default {
 }
 
 </script>
-
-
-
 
 <style lang="scss" scoped>
 @import "@/style/newLogin.scss";
