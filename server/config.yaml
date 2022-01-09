@@ -138,3 +138,5 @@ Timer:
     #{ tableName: "log2" , compareField: "created_at", interval: "2160h" }
   ]
 
+webapi:
+  addr: http://localhost:7777
