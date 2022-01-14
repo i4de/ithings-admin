@@ -42,7 +42,15 @@ func (m *menu) Initialize() error {
 		{MenuLevel: 0, Hidden: false, ParentId: "0", Path: "state", Name: "state", Component: "view/system/state.vue", Sort: 6, Meta: system.Meta{Title: "服务器状态", Icon: "cloudy"}},
 		{MenuLevel: 0, Hidden: false, ParentId: "14", Path: "autoCodeAdmin", Name: "autoCodeAdmin", Component: "view/systemTools/autoCodeAdmin/index.vue", Sort: 1, Meta: system.Meta{Title: "自动化代码管理", Icon: "magic-stick"}},
 		{MenuLevel: 0, Hidden: true, ParentId: "14", Path: "autoCodeEdit/:id", Name: "autoCodeEdit", Component: "view/systemTools/autoCode/index.vue", Sort: 0, Meta: system.Meta{Title: "自动化代码（复用）", Icon: "magic-stick"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 200}, MenuLevel: 0, Hidden: false, ParentId: "0", Path: "things", Name: "things", Component: "view/things/device/index.vue", Sort: 0, Meta: system.Meta{Title: "物联网", Icon: "upload"}},
+		{MenuLevel: 0, Hidden: false, ParentId: "200", Path: "productInfo", Name: "productInfo", Component: "view/things/device/productInfo/productInfo.vue", Sort: 0, Meta: system.Meta{Title: "产品管理", Icon: "magic-stick"}},
+		{MenuLevel: 0, Hidden: true, ParentId: "200", Path: "deviceInfo", Name: "deviceInfo", Component: "view/things/device/deviceInfo/deviceInfo.vue", Sort: 0, Meta: system.Meta{Title: "设备管理", Icon: "magic-stick"}},
+		{MenuLevel: 0, Hidden: false, ParentId: "200", Path: "userGroup", Name: "userGroup", Component: "view/things/user/userGroup/index.vue", Sort: 0, Meta: system.Meta{Title: "用户及设备组管理", Icon: "magic-stick"}},
+		{MenuLevel: 0, Hidden: false, ParentId: "200", Path: "groupInfo", Name: "groupInfo", Component: "view/things/device/group/groupInfo.vue", Sort: 0, Meta: system.Meta{Title: "设备及用户组", Icon: "magic-stick"}},
+		{MenuLevel: 0, Hidden: true, ParentId: "200", Path: "productDetail", Name: "productDetail", Component: "view/things/device/productDetail/index.vue", Sort: 0, Meta: system.Meta{Title: "产品详情", Icon: "magic-stick"}},
+		{MenuLevel: 0, Hidden: false, ParentId: "200", Path: "clientList", Name: "clientList", Component: "view/things/user/userInfo/index.vue", Sort: 0, Meta: system.Meta{Title: "用户列表", Icon: "magic-stick"}},
 	}
+
 	if err := global.GVA_DB.Create(&entities).Error; err != nil { // 创建 model.User 初始化数据
 		return errors.Wrap(err, m.TableName()+"表数据初始化失败!")
 	}

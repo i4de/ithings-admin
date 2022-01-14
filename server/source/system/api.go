@@ -118,6 +118,16 @@ func (a *api) Initialize() error {
 		{ApiGroup: "excel", Method: "GET", Path: "/excel/loadExcel", Description: "下载excel"},
 		{ApiGroup: "excel", Method: "POST", Path: "/excel/exportExcel", Description: "导出excel"},
 		{ApiGroup: "excel", Method: "GET", Path: "/excel/downloadTemplate", Description: "下载excel模板"},
+
+		//给things初始化
+		{ApiGroup: "things", Method: "GET", Path: "/things/device/findProductInfo", Description: "根据ID获取productInfo表"},
+		{ApiGroup: "things", Method: "GET", Path: "/things/device/getProductInfoList", Description: "获取productInfo表列表"},
+		{ApiGroup: "things", Method: "POST", Path: "/things/device/manageProductInfo", Description: "新增修改删除产品信息"},
+		{ApiGroup: "things", Method: "GET", Path: "/things/device/findDeviceInfo", Description: "根据ID获取设备信息"},
+		{ApiGroup: "things", Method: "GET", Path: "/things/device/getDeviceInfoList", Description: "设备列表"},
+		{ApiGroup: "things", Method: "POST", Path: "/things/device/manageDeviceInfo", Description: "新增修改删除设备信息"},
+		{ApiGroup: "things", Method: "POST", Path: "/things/device/getUserInfos", Description: "获取用户信息"},
+		{ApiGroup: "things", Method: "GET", Path: "/things/device/getUserCoreList", Description: "获取用户核心信息列表"},
 	}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil {
 		return errors.Wrap(err, a.TableName()+"表数据初始化失败!")

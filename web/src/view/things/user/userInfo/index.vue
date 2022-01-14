@@ -62,120 +62,91 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import {
   getUserCoreList,
   getUserInfos
 } from '@/api/things/userInfo'
-import { formatTimeToStr } from '@/utils/date'
-import infoList from '@/mixins/infoList'
-import * as vars from '@/view/things/device/vars'
-export default {
-  name: 'UserInfo',
-  filters: {
-    formatDate: function(time) {
-      if (time !== null && time !== '') {
-        var date = new Date(time)
-        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss')
-      } else {
-        return ''
-      }
-    },
-    formatBoolean: function(bool) {
-      if (bool != null) {
-        return bool ? '是' : '否'
-      } else {
-        return ''
-      }
-    }
-  },
-  mixins: [infoList],
-  data() {
-    return {
-      listApi: getUserCoreList,
-      formData: {
-        uid: '',
-        userName: '',
-        password: '',
-        email: '',
-        phone: '',
-        wechat: '',
-        lastIP: '',
-        regIP: '',
-        createdTime: '',
-        status: 0,
-      }
-    }
-  },
-  async created() {
-    await this.getTableData()
-    this.fmtAllData()
-  },
-  beforeCreate() {
-    console.log('beforeCreate')
-  },
-  methods: {
-    fmtAllData() {
-      this.AutoRegister = this.fmtData(vars.AutoRegister)
-      this.DataProto = this.fmtData(vars.DataProto)
-      this.NetType = this.fmtData(vars.NetType)
-      this.DeviceType = this.fmtData(vars.DeviceType)
-      this.AuthMode = this.fmtData(vars.AuthMode)
+// import * as vars from '@/view/things/device/vars'
+// import { useRoute } from 'vue-router'
+// import { ElMessage, ElMessageBox } from 'element-plus'
+import { fmtDate } from '../../js/utils'
+import { ref } from 'vue'
+// const formData = ref({
+//   uid: '',
+//   userName: '',
+//   email: '',
+//   phone: '',
+//   wechat: '',
+//   lastIP: '',
+//   regIP: '',
+//   country: '',
+//   city: '',
+//   createdTime: '',
+//   status: '',
+// })
+const page = ref(1)
+const total = ref(0)
+const pageSize = ref(10)
+const tableData = ref([])
 
-      this.AutoRegisterArr = vars.AutoRegister
-      this.DataProtoArr = vars.DataProto
-      this.NetTypeArr = vars.NetType
-      this.DeviceTypeArr = vars.DeviceType
-      this.AuthModeArr = vars.AuthMode
-    },
-    fmtData(values) {
-      var ret = []
-      for (var k = 1, length = values.length; k < length; k++) {
-        ret.push({
-          value: k,
-          label: values[k]
-        })
-      }
-      return ret
-    },
-    fmtDate(time) {
-      var unixTimestamp = new Date(time * 1000)
-      return unixTimestamp.toLocaleString()
-    },
-    async expandChange(row, expanded) {
-      console.log('expandChange|row=' + row.uid + '|expanded=' + expanded.length)
-      if (expanded.length === 0 || row.userInfo) {
-        return
-      }
-      const data = {
-        uid: [row.uid]
-      }
-      const resp = await getUserInfos(data)
-      if (resp.code !== 0) {
-        return
-      }
-      row.userInfo = resp.data.list[0]
-    },
-    async getUserInfos(uid) {
-      const data = {
-        uid: [uid]
-      }
-      const resp = await getUserInfos(data)
-      console.log(resp)
-      return resp.data
-    },
-    onSubmit() { // 条件搜索前端看此方法
-      this.page = 1
-      this.pageSize = 10
-      this.getTableData()
-    },
-    handleSelectionChange(val) {
-      this.multipleSelection = val
-    },
-    async onDelete() {
-      console.log('onDelete')
-    },
+// 搜索
+const onSubmit = () => {
+  page.value = 1
+  pageSize.value = 10
+  getTableData()
+}
+// 分页
+const handleSizeChange = (val) => {
+  pageSize.value = val
+  getTableData()
+}
+
+// 修改页面容量
+const handleCurrentChange = (val) => {
+  page.value = val
+  getTableData()
+}
+const multipleSelection = ref([])
+const handleSelectionChange = (val) => {
+  multipleSelection.value = val
+}
+const onDelete = async() => {
+  console.log('onDelete')
+}
+
+const expandChange = async(row, expanded) => {
+  console.log('expandChange|row=' + row.uid + '|expanded=' + expanded.length)
+  if (expanded.length === 0 || row.userInfo) {
+    return
   }
+  const data = {
+    uid: [row.uid]
+  }
+  const resp = await getUserInfos(data)
+  if (resp.code !== 0) {
+    return
+  }
+  row.userInfo = resp.data.list[0]
+}
+
+// 查询
+const getTableData = async() => {
+  const table = await getUserCoreList({ page: page.value, pageSize: pageSize.value })
+  if (table.code === 0) {
+    tableData.value = table.data.list
+    total.value = table.data.total
+    page.value = table.data.page
+    pageSize.value = table.data.pageSize
+  }
+}
+getTableData()
+
+</script>
+
+<script>
+export default {
+  name: 'UserInfo'
 }
 </script>
 

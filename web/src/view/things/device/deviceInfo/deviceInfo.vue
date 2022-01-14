@@ -2,7 +2,6 @@
   <div>
     <div class="search-term">
       <el-row justify="">
-        <el-col :span="12">
           <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
             <el-form-item>
               <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
@@ -17,11 +16,6 @@
               </el-popover>
             </el-form-item>
           </el-form>
-        </el-col>
-        <!--        "margin-left: -500px; margin-top: 15px"-->
-        <el-col :span="4" style="margin-left: -20rem; margin-top: 1rem">产品名称:{{ productInfo.productName }}</el-col>
-        <el-col :span="4" style=" margin-top: 1rem">产品ID:{{ productInfo.productID }}</el-col>
-        <el-col :span="8" />
       </el-row>
 
     </div>
@@ -105,17 +99,18 @@ import * as vars from '@/view/things/device/vars'
 import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { fmtDate } from '../../js/utils'
+import { ref } from 'vue'
 const formData = ref({
   deviceName: '',
   version: '',
-  logLevel: 0
+  logLevel: ''
 })
 const page = ref(1)
 const total = ref(0)
 const pageSize = ref(10)
 const tableData = ref([])
 const route = useRoute()
-const productInfo = ref(JSON.parse(decodeURIComponent(route.query.productInfo)))
+const productInfo = ref(JSON.parse(route.query.productInfo))
 console.log(productInfo)
 const searchInfo = ref({ productID: productInfo.value.productID })
 const LogLevelArr = ref(vars.LogLevel)

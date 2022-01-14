@@ -227,8 +227,8 @@ const onDelete = async()=> {
 const router = useRouter()
 const goInProduct= async(proeduct)=> {
   console.log('productID=' + proeduct.productID)
-  const productInfo = encodeURIComponent(JSON.stringify(proeduct))
-  await router.push({ name: 'deviceInfo', query: { productInfo: productInfo }})
+  const productInfo = JSON.stringify(proeduct)
+  await router.push({ name: 'productDetail', query: { productInfo: productInfo }})
 }
 
 // 弹窗控制标记

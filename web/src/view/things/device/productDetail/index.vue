@@ -1,25 +1,23 @@
 <template>
-  <div style="width: 100%">
+  <div>
     <el-row>
       <el-col :span="20">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
           <el-tab-pane label="物模型" name="first">
             <ProductTemplate />
           </el-tab-pane>
-          <el-tab-pane label="设备开发" name="second">
-            <span>{{ count }}</span>
-            <p>
-              <button @click="add">+</button>
-              <button @click="minus">-</button>
-            </p>
+          <el-tab-pane label="设备列表" name="second">
+            <DeviceInfo/>
           </el-tab-pane>
-          <el-tab-pane label="设备列表" name="third">Role</el-tab-pane>
+          <el-tab-pane label="设备开发" name="third">
+            <DeviceInfo/>
+          </el-tab-pane>
         </el-tabs>
       </el-col>
       <el-col :span="4">
-        <el-affix :offset="120">
+        <el-affix :offset="200">
           <el-card class="box-card">
-            <el-descriptions :column="1" border>
+            <el-descriptions :column="1" border >
               <template #title>
                 宠物定位项圈 开发中
               </template>
@@ -48,9 +46,9 @@
               >设备
               </el-descriptions-item>
               <el-descriptions-item
-                  label="认证方式	"
-                  label-align="right"
-                  align="center"
+                label="认证方式	"
+                label-align="right"
+                align="center"
               >密钥认证
               </el-descriptions-item>
               <el-descriptions-item
@@ -60,49 +58,49 @@
               >2G/3G/4G
               </el-descriptions-item>
               <el-descriptions-item
-                  label="数据协议"
-                  label-align="right"
-                  align="center"
+                label="数据协议"
+                label-align="right"
+                align="center"
               >	物模型
               </el-descriptions-item>
               <el-descriptions-item
-                  label="创建时间"
-                  label-align="right"
-                  align="center"
+                label="创建时间"
+                label-align="right"
+                align="center"
               >	2021-12-06 21:48:45
               </el-descriptions-item>
               <el-descriptions-item
-                  label="更改时间"
-                  label-align="right"
-                  align="center"
+                label="更改时间"
+                label-align="right"
+                align="center"
               >	2021-12-06 21:48:45
               </el-descriptions-item>
               <el-descriptions-item
-                  label="产品描述"
-                  label-align="right"
-                  align="center"
+                label="产品描述"
+                label-align="right"
+                align="center"
               >	-
               </el-descriptions-item>
             </el-descriptions>
           </el-card>
           <el-card>
-            <el-descriptions :column="1" border>
+            <el-descriptions :column="1" border >
               <template #title>
                 功能定义
               </template>
               <el-descriptions-item
-                  label="标准功能"
-                  label-align="right"
-                  align="center"
-                  label-class-name="my-label"
-                  class-name="my-content"
-                  width="150px"
+                label="标准功能"
+                label-align="right"
+                align="center"
+                label-class-name="my-label"
+                class-name="my-content"
+                width="150px"
               >5个
               </el-descriptions-item>
               <el-descriptions-item
-                  label="自定义功能"
-                  label-align="right"
-                  align="center"
+                label="自定义功能"
+                label-align="right"
+                align="center"
               >	1个
               </el-descriptions-item>
             </el-descriptions>
@@ -113,51 +111,24 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 import ProductTemplate from './ProductTemplate.vue'
+import DeviceInfo from '../deviceInfo/deviceInfo.vue'
 
-const geMethod = (count) => {
-  const add = () => {
-    count.value++
-  }
-  const minus = () => count.value--
-  return {
-    add, minus
-  }
+// const activeIndex = ref('1')
+// const activeIndex2 = ref('1')
+// const handleSelect = (key, keyPath) => {
+//   console.log(key, keyPath)
+// }
+const activeName = ref('first')
+const handleClick = (tab, event) => {
+  console.log(tab, event)
 }
+</script>
+<script>
 export default {
-  name: 'ProductDetail',
-  components: {
-    ProductTemplate
-  },
-  setup() {
-    const count = ref(0)
-    const { add, minus } = geMethod(count)
-    const activeIndex = ref('1')
-    const activeIndex2 = ref('1')
-    const handleSelect = (key, keyPath) => {
-      console.log(key, keyPath)
-    }
-    return {
-      activeIndex,
-      activeIndex2,
-      handleSelect,
-      minus,
-      count,
-      add
-    }
-  },
-  data() {
-    return {
-      activeName: 'first',
-    }
-  },
-  methods: {
-    handleClick(tab, event) {
-      console.log(tab, event)
-    },
-  },
+  name: 'ProductDetail'
 }
 </script>
 
@@ -167,5 +138,4 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-
 </style>

@@ -69,11 +69,11 @@
         <el-table-column label="编辑">
           <template #default="scope">
             <el-button
-                size="small"
+              size="small"
             >编辑</el-button>
             <el-button
-                size="small"
-                type="danger"
+              size="small"
+              type="danger"
             >删除</el-button>
           </template>
         </el-table-column>

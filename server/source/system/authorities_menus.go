@@ -46,6 +46,20 @@ func (a *authoritiesMenus) Initialize() error {
 		{BaseMenuId: 24, AuthorityId: "888"},
 		{BaseMenuId: 25, AuthorityId: "888"},
 
+		//给things使用
+		{BaseMenuId: 200, AuthorityId: "888"},
+		{BaseMenuId: 201, AuthorityId: "888"},
+		{BaseMenuId: 202, AuthorityId: "888"},
+		{BaseMenuId: 203, AuthorityId: "888"},
+		{BaseMenuId: 204, AuthorityId: "888"},
+		{BaseMenuId: 205, AuthorityId: "888"},
+		{BaseMenuId: 206, AuthorityId: "888"},
+		{BaseMenuId: 207, AuthorityId: "888"},
+		{BaseMenuId: 208, AuthorityId: "888"},
+		{BaseMenuId: 209, AuthorityId: "888"},
+		{BaseMenuId: 210, AuthorityId: "888"},
+
+
 		{BaseMenuId: 1, AuthorityId: "8881"},
 		{BaseMenuId: 2, AuthorityId: "8881"},
 		{BaseMenuId: 8, AuthorityId: "8881"},
