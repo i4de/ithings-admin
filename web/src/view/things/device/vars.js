@@ -64,11 +64,26 @@ export const DataProto = ['未定义', '自定义', '数据模板']
 export const AutoRegister = ['未定义', '关闭', '打开', '打开并自动创建设备']
 export const LogLevel = ['关闭', '关闭', '错误', '告警', '信息', '调试']
 
+export const fmtData = (values) => {
+  var ret = []
+  for (var k = 1, length = values.length; k < length; k++) {
+    ret.push({
+      value: k,
+      label: values[k]
+    })
+  }
+  return ret
+}
 export default {
   AutoRegister,
   DataProto,
   NetType,
   DeviceType,
   AuthMode,
-  LogLevel
+  LogLevel,
+  fmtData,
+  INSERT,
+  UPDATE,
+  DELETE
 }
+

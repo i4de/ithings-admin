@@ -18,10 +18,10 @@
             </el-form-item>
           </el-form>
         </el-col>
-<!--        "margin-left: -500px; margin-top: 15px"-->
-        <el-col :span="4" style="margin-left: -20rem; margin-top: 1rem" >产品名称:{{productInfo.productName}}</el-col>
-        <el-col :span="4" style=" margin-top: 1rem">产品ID:{{productInfo.productID}}</el-col>
-        <el-col :span="8"></el-col>
+        <!--        "margin-left: -500px; margin-top: 15px"-->
+        <el-col :span="4" style="margin-left: -20rem; margin-top: 1rem">产品名称:{{ productInfo.productName }}</el-col>
+        <el-col :span="4" style=" margin-top: 1rem">产品ID:{{ productInfo.productID }}</el-col>
+        <el-col :span="8" />
       </el-row>
 
     </div>
@@ -95,162 +95,137 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import {
   findDeviceInfo,
   getDeviceInfoList,
   manageDeviceInfo
 } from '@/api/things/deviceInfo' //  此处请自行替换地址
-import { formatTimeToStr } from '@/utils/date'
-import infoList from '@/mixins/infoList'
 import * as vars from '@/view/things/device/vars'
-export default {
-  name: 'DeviceInfo',
-  filters: {
-    formatDate: function(time) {
-      if (time !== null && time !== '') {
-        var date = new Date(time)
-        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss')
-      } else {
-        return ''
-      }
-    },
-    formatBoolean: function(bool) {
-      if (bool != null) {
-        return bool ? '是' : '否'
-      } else {
-        return ''
-      }
-    }
-  },
-  mixins: [infoList],
-  data() {
-    return {
-      listApi: getDeviceInfoList,
-      dialogFormVisible: false,
-      type: '',
-      deleteVisible: false,
-      multipleSelection: [],
-      productInfo: {},
-      LogLevelArr: [],
-      LogLevel: [{
-        value: 0,
-        label: '不修改'
-      }],
-      formData: {
-        deviceName: '',
-        version: '',
-        logLevel: 0
-      }
-    }
-  },
-  async created() {
-    console.log('created deviceInfo')
-    this.productInfo = JSON.parse(decodeURIComponent(this.$route.query.productInfo))
-    console.log(this.productInfo)
-    this.searchInfo.productID = this.productInfo.productID
-    await this.getTableData()
-    this.fmtAllData()
-  },
-  methods: {
-    // 条件搜索前端看此方法
-    onSubmit() {
-      this.page = 1
-      this.pageSize = 10
-      this.getTableData()
-    },
-    fmtAllData() {
-      this.LogLevel = this.fmtData(vars.LogLevel)
-      this.LogLevelArr = vars.LogLevel
-    },
-    fmtData(values) {
-      var ret = []
-      for (var k = 1, length = values.length; k < length; k++) {
-        ret.push({
-          value: k,
-          label: values[k]
-        })
-      }
-      return ret
-    },
-    handleSelectionChange(val) {
-      this.multipleSelection = val
-    },
-    deleteRow(row) {
-      this.$confirm('确定要删除吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.deleteDeviceInfo(row)
-      })
-    },
-    async onDelete() {
-      console.log('onDelete')
-    },
-    async updateDeviceInfo(row) {
-      const res = await findDeviceInfo({ productID: row.productID, deviceName: row.deviceName })
-      this.type = vars.UPDATE
-      if (res.code === 0) {
-        this.formData = res.data.deviceInfo
-        this.dialogFormVisible = true
-      }
-    },
-    closeDialog() {
-      this.dialogFormVisible = false
-      this.formData = {
-        productID: '',
-        deviceName: '',
-        version: '',
-        logLevel: 0
-      }
-    },
-    async deleteDeviceInfo(row) {
-      console.log('deleteDeviceInfo')
-      var res = await manageDeviceInfo({
-        opt: vars.DELETE,
-        info: row
-      })
-      if (res.code === 0) {
-        this.$message({
-          type: 'success',
-          message: '删除成功'
-        })
-        this.getTableData()
-      }
-    },
-    async enterDialog() {
-      this.formData.productID = this.productInfo.productID
-      if (this.formData.logLevel === '') {
-        this.formData.logLevel = 0
-      }
-      var res = await manageDeviceInfo({
-        opt: this.type,
-        info: this.formData
-      })
-      if (res.code === 0) {
-        this.$message({
-          type: 'success',
-          message: '创建/更改成功'
-        })
-        this.closeDialog()
-        this.getTableData()
-      }
-    },
-    openDialog() {
-      this.type = 'create'
-      this.dialogFormVisible = true
-    },
-    fmtDate(time) {
-      if (time === '0') {
-        return ''
-      }
-      var unixTimestamp = new Date(time * 1000)
-      return unixTimestamp.toLocaleString()
-    }
+import { useRoute } from 'vue-router'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { fmtDate } from '../../js/utils'
+const formData = ref({
+  deviceName: '',
+  version: '',
+  logLevel: 0
+})
+const page = ref(1)
+const total = ref(0)
+const pageSize = ref(10)
+const tableData = ref([])
+const route = useRoute()
+const productInfo = ref(JSON.parse(decodeURIComponent(route.query.productInfo)))
+console.log(productInfo)
+const searchInfo = ref({ productID: productInfo.value.productID })
+const LogLevelArr = ref(vars.LogLevel)
+const LogLevel = ref(vars.fmtData(vars.LogLevel))
+// 行为控制标记（弹窗内部需要增还是改）
+const type = ref('')
+// 搜索
+const onSubmit = () => {
+  page.value = 1
+  pageSize.value = 10
+  getTableData()
+}
+// 分页
+const handleSizeChange = (val) => {
+  pageSize.value = val
+  getTableData()
+}
+
+// 修改页面容量
+const handleCurrentChange = (val) => {
+  page.value = val
+  getTableData()
+}
+const multipleSelection = ref([])
+const handleSelectionChange = (val) => {
+  multipleSelection.value = val
+}
+const deleteRow = (row) => {
+  ElMessageBox.confirm('确定要删除吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    deleteDeviceInfo(row)
+  })
+}
+
+const onDelete = async() => {
+  console.log('onDelete')
+}
+
+// 弹窗控制标记
+const dialogFormVisible = ref(false)
+const updateDeviceInfo = async(row) => {
+  const res = await findDeviceInfo({ productID: row.productID,
+    deviceName: row.deviceName })
+  type.value = vars.UPDATE
+  if (res.code === 0) {
+    formData.value = res.data.deviceInfo
+    dialogFormVisible.value = true
   }
 }
-</script>
+const closeDialog = () => {
+  dialogFormVisible.value = false
+  formData.value = {
+    productID: '',
+    deviceName: '',
+    version: '',
+    logLevel: 0
+  }
+}
+const deleteDeviceInfo = async(row) => {
+  console.log('deleteDeviceInfo')
+  var res = await manageDeviceInfo({
+    opt: vars.DELETE,
+    info: row
+  })
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: '删除成功'
+    })
+    getTableData()
+  }
+}
+const enterDialog = async() => {
+  formData.value.productID = productInfo.value.productID
+  if (formData.logLevel === '') {
+    formData.value.logLevel = 0
+  }
+  var res = await manageDeviceInfo({
+    opt: type.value,
+    info: formData.value
+  })
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: '创建/更改成功'
+    })
+    closeDialog()
+    getTableData()
+  }
+}
+const openDialog = () => {
+  type.value = vars.INSERT
+  dialogFormVisible.value = true
+}
 
+// 查询
+const getTableData = async() => {
+  const table = await getDeviceInfoList({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
+  if (table.code === 0) {
+    tableData.value = table.data.list
+    total.value = table.data.total
+    page.value = table.data.page
+    pageSize.value = table.data.pageSize
+  }
+}
+getTableData()
+
+</script>
 <style>
 </style>

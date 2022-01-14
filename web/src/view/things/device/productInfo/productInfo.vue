@@ -24,15 +24,6 @@
       :data="tableData"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="expand">
-        <template #default="props">
-          <el-form label-position="left" inline>
-            <el-form-item label="数据模板">
-              <span>{{ props.row.template }}</span>
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
       <el-table-column label="产品名称" prop="productName" width="120">
         <template #default="scope">
           <el-button :plain="true" type="text" @click="goInProduct(scope.row)">{{ scope.row.productName }}</el-button>
@@ -137,9 +128,6 @@
         <el-form-item label="描述:">
           <el-input v-model="formData.description" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="数据模板:">
-          <el-input v-model="formData.template" type="textarea" placeholder="请输入" />
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取 消</el-button>
@@ -149,196 +137,164 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import {  useRouter } from 'vue-router'
+import {ElMessage, ElMessageBox} from 'element-plus'
+import {fmtDate} from "../../js/utils";
+import * as vars from '@/view/things/device/vars'
 import {
   manageProductInfo,
   findProductInfo,
   getProductInfoList
 } from '@/api/things/productInfo'
-import { formatTimeToStr } from '@/utils/date'
-import infoList from '@/mixins/infoList'
-import * as vars from '@/view/things/device/vars'
-export default {
-  name: 'ProductInfo',
-  filters: {
-    formatDate: function(time) {
-      if (time !== null && time !== '') {
-        var date = new Date(time)
-        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss')
-      } else {
-        return ''
-      }
-    },
-    formatBoolean: function(bool) {
-      if (bool != null) {
-        return bool ? '是' : '否'
-      } else {
-        return ''
-      }
-    }
-  },
-  mixins: [infoList],
-  data() {
-    return {
-      listApi: getProductInfoList,
-      dialogFormVisible: false,
-      type: '',
-      deleteVisible: false,
-      multipleSelection: [],
-      AutoRegisterArr: [],
-      AutoRegister: [{
-        value: 0,
-        label: '未定义'
-      }],
-      DataProtoArr: [],
-      DataProto: [{
-        value: 0,
-        label: '未定义'
-      }],
-      NetTypeArr: [],
-      NetType: [{
-        value: 0,
-        label: '未定义'
-      }],
-      DeviceTypeArr: [],
-      DeviceType: [{
-        value: 0,
-        label: '未定义'
-      }],
-      AuthModeArr: [],
-      AuthMode: [{
-        value: 0,
-        label: '未定义'
-      }],
-      formData: {
-        productName: '',
-        authMode: 0,
-        deviceType: 0,
-        categoryID: 0,
-        netType: 0,
-        dataProto: 0,
-        autoRegister: 0,
-        secret: '',
-        description: ''
-      }
-    }
-  },
-  async created() {
-    await this.getTableData()
-    this.fmtAllData()
-  },
-  beforeCreate() {
-    console.log('beforeCreate')
-  },
-  methods: {
-    fmtAllData() {
-      this.AutoRegister = this.fmtData(vars.AutoRegister)
-      this.DataProto = this.fmtData(vars.DataProto)
-      this.NetType = this.fmtData(vars.NetType)
-      this.DeviceType = this.fmtData(vars.DeviceType)
-      this.AuthMode = this.fmtData(vars.AuthMode)
+import { ref } from 'vue'
+const formData = ref({
+  productName: '',
+  authMode: 1,
+  deviceType: 1,
+  categoryID: '',
+  netType: 1,
+  dataProto: 1,
+  autoRegister: 1,
+  secret: '',
+  description: ''
+})
+const page = ref(1)
+const total = ref(0)
+const pageSize = ref(10)
+const tableData = ref([])
+const searchInfo = ref({})
+// 搜索
+const onSubmit = () => {
+  page.value = 1
+  pageSize.value = 10
+  getTableData()
+}
+// 分页
+const handleSizeChange = (val) => {
+  pageSize.value = val
+  getTableData()
+}
 
-      this.AutoRegisterArr = vars.AutoRegister
-      this.DataProtoArr = vars.DataProto
-      this.NetTypeArr = vars.NetType
-      this.DeviceTypeArr = vars.DeviceType
-      this.AuthModeArr = vars.AuthMode
-    },
-    fmtData(values) {
-      var ret = []
-      for (var k = 1, length = values.length; k < length; k++) {
-        ret.push({
-          value: k,
-          label: values[k]
-        })
-      }
-      return ret
-    },
-    fmtDate(time) {
-      var unixTimestamp = new Date(time * 1000)
-      return unixTimestamp.toLocaleString()
-    },
-    onSubmit() { // 条件搜索前端看此方法
-      this.page = 1
-      this.pageSize = 10
-      this.getTableData()
-    },
-    handleSelectionChange(val) {
-      this.multipleSelection = val
-    },
-    deleteRow(row) {
-      this.$confirm('确定要删除吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.deleteProductInfo(row)
-      })
-    },
-    async onDelete() {
-      console.log('onDelete')
-    },
-    async goInProduct(proeduct) {
-      console.log('productID=' + proeduct.productID)
-      const productInfo = encodeURIComponent(JSON.stringify(proeduct))
-      await this.$router.push({ name: 'deviceInfo', query: { productInfo: productInfo }})
-    },
-    async updateProductInfo(row) {
-      const res = await findProductInfo({ productID: row.productID })
-      this.type = vars.UPDATE
-      if (res.code === 0) {
-        this.formData = res.data.productInfo
-        this.dialogFormVisible = true
-      }
-    },
-    closeDialog() {
-      this.dialogFormVisible = false
-      this.formData = {
-        productName: '',
-        productID: '',
-        authMode: 0,
-        deviceType: 0,
-        categoryID: 0,
-        netType: 0,
-        dataProto: 0,
-        autoRegister: 0,
-        secret: '',
-        description: ''
-      }
-    },
-    async deleteProductInfo(row) {
-      console.log('deleteProductInfo')
-      var res = await manageProductInfo({
-        opt: vars.DELETE,
-        info: row
-      })
-      if (res.code === 0) {
-        this.$message({
-          type: 'success',
-          message: '删除成功'
-        })
-        this.getTableData()
-      }
-    },
-    async enterDialog() {
-      var res = await manageProductInfo({
-        opt: this.type,
-        info: this.formData
-      })
-      if (res.code === 0) {
-        this.$message({
-          type: 'success',
-          message: '创建/更改成功'
-        })
-        this.closeDialog()
-        this.getTableData()
-      }
-    },
-    openDialog() {
-      this.type = vars.INSERT
-      this.dialogFormVisible = true
-    }
+// 修改页面容量
+const handleCurrentChange = (val) => {
+  page.value = val
+  getTableData()
+}
+// 查询
+const getTableData = async() => {
+  const table = await getProductInfoList({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
+  if (table.code === 0) {
+    tableData.value = table.data.list
+    total.value = table.data.total
+    page.value = table.data.page
+    pageSize.value = table.data.pageSize
   }
+}
+getTableData()
+
+// 行为控制标记（弹窗内部需要增还是改）
+const type = ref('')
+
+const AutoRegisterArr=ref(vars.AutoRegister)
+const AutoRegister= ref(vars.fmtData(vars.AutoRegister))
+const DataProtoArr= ref(vars.DataProto)
+const   DataProto=ref(vars.fmtData(vars.DataProto))
+const  NetTypeArr= ref(vars.NetType)
+const   NetType=ref(vars.fmtData(vars.NetType))
+const   DeviceTypeArr= ref(vars.DeviceType)
+const  DeviceType=ref(vars.fmtData(vars.DeviceType))
+const   AuthModeArr=ref(vars.AuthMode)
+const  AuthMode=ref(vars.fmtData(vars.AuthMode))
+
+
+const multipleSelection=ref([])
+const handleSelectionChange= (val)=> {
+  multipleSelection.value = val
+}
+const deleteRow = (row) => {
+  ElMessageBox.confirm('确定要删除吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    this.deleteProductInfo(row)
+  })
+}
+const onDelete = async()=> {
+  console.log('onDelete')
+}
+const router = useRouter()
+const goInProduct= async(proeduct)=> {
+  console.log('productID=' + proeduct.productID)
+  const productInfo = encodeURIComponent(JSON.stringify(proeduct))
+  await router.push({ name: 'deviceInfo', query: { productInfo: productInfo }})
+}
+
+// 弹窗控制标记
+const dialogFormVisible = ref(false)
+const updateProductInfo= async(row)=> {
+  const res = await findProductInfo({ productID: row.productID })
+  type.value = vars.UPDATE
+  if (res.code === 0) {
+    formData.value = res.data.productInfo
+    dialogFormVisible.value = true
+  }
+}
+const closeDialog=()=> {
+  dialogFormVisible.value = false
+  formData.value = {
+    productName: '',
+    productID: '',
+    authMode: 0,
+    deviceType: 0,
+    categoryID: 0,
+    netType: 0,
+    dataProto: 0,
+    autoRegister: 0,
+    secret: '',
+    description: ''
+  }
+}
+const deleteProductInfo= async(row)=> {
+  console.log('deleteProductInfo')
+  var res = await manageProductInfo({
+    opt: vars.DELETE,
+    info: row
+  })
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: '创建/更改成功'
+    })
+    getTableData()
+  }
+}
+const enterDialog=async()=> {
+  var res = await manageProductInfo({
+    opt: type.value,
+    info: formData.value
+  })
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: '创建/更改成功'
+    })
+    closeDialog()
+    getTableData()
+  }
+}
+const openDialog=()=> {
+  type.value = vars.INSERT
+  dialogFormVisible.value = true
+}
+
+
+</script>
+
+<script>
+export default {
+  name: 'ProductInfo'
 }
 </script>
 
