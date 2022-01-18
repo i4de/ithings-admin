@@ -39,3 +39,27 @@ export const getProductInfoList = (params) => {
     params
   })
 }
+
+// @Tags ProductInfo
+// @Summary 分页获取ProductInfo列表
+// @Security ApiKeyAuth
+// @accept application/json
+// @Produce application/json
+// @Param data body request.PageInfo true "分页获取ProductInfo列表"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
+// @Router /productInfo/getProductInfoList [get]
+export const getProductTemplate = (params) => {
+  return service({
+    url: '/things/device/getProductTemplate',
+    method: 'get',
+    params
+  })
+}
+
+export const manageProductTemplate = (data) => {
+  return service({
+    url: '/things/device/manageProductTemplate',
+    method: 'post',
+    data
+  })
+}
