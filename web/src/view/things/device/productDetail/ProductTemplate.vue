@@ -15,11 +15,12 @@
         </el-row>
         <el-row>
           <el-col style="border: 1px solid gray">
-            <el-scrollbar height="550px" min-size="100" native>
-              <p class="tempJson">
-                {{ formatJson(metaTemplate) }}
-              </p>
-            </el-scrollbar>
+            <el-input
+                v-model="templateStr"
+                readonly="true"
+                :rows="20"
+                type="textarea"
+            />
           </el-col>
         </el-row>
 
@@ -33,7 +34,7 @@
         <el-row>
           <el-col>
             <el-input
-              v-model="templateStr"
+              v-model="templateStrInput"
               :rows="20"
               type="textarea"
               placeholder="请将要导入的物模型对应的JSON粘贴到此文本框"
@@ -175,18 +176,22 @@ const copyTemplate = async() => {
 const dialogTempModifyVisible = ref(false)
 const closeModifyDialog = () => {
   dialogTempModifyVisible.value = false
+  templateStrInput.value = ''
 }
 const ModifyTemplateVisible = () => {
   dialogTempModifyVisible.value = true
 }
+
+const templateStrInput = ref('')
 const ModifyTemplate = async() => {
   console.log('ModifyTemplate')
   var res = await manageProductTemplate({
     info: {
       productID: productInfo.value.productID,
-      template: templateStr.value
+      template: templateStrInput.value
     }
   })
+  templateStrInput.value = ''
   if (res.code === 0) {
     ElMessage({
       type: 'success',
@@ -201,7 +206,7 @@ const getTableData = async() => {
   const table = await getProductTemplate({ ...searchInfo.value })
   console.log('获取到:', table)
   if (table.code === 0) {
-    templateStr.value = table.data.template
+    templateStr.value = formatJson(table.data.template)
     metaTemplate.value = JSON.parse(table.data.template)
     console.log('格式化后:', metaTemplate.value)
   }
