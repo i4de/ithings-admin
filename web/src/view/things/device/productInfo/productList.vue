@@ -294,7 +294,7 @@ const openDialog=()=> {
 
 <script>
 export default {
-  name: 'ProductInfo'
+  name: 'ProductList'
 }
 </script>
 

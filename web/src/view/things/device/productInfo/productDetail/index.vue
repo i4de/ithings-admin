@@ -7,15 +7,14 @@
             <ProductTemplate />
           </el-tab-pane>
           <el-tab-pane label="设备列表" name="second">
-            <DeviceInfo/>
+            <DeviceList/>
           </el-tab-pane>
           <el-tab-pane label="设备开发" name="third">
-            <DeviceInfo/>
+            <DeviceDetail/>
           </el-tab-pane>
         </el-tabs>
       </el-col>
       <el-col :span="4">
-        <el-affix :offset="200">
           <el-card class="box-card">
             <el-descriptions :column="1" border >
               <template #title>
@@ -105,7 +104,6 @@
               </el-descriptions-item>
             </el-descriptions>
           </el-card>
-        </el-affix>
       </el-col>
     </el-row>
   </div>
@@ -114,8 +112,8 @@
 <script setup>
 import { ref } from 'vue'
 import ProductTemplate from './ProductTemplate.vue'
-import DeviceInfo from '../deviceInfo/deviceInfo.vue'
-
+import DeviceList from '../../deviceInfo/deviceList.vue'
+import DeviceDetail from '../../deviceInfo/deviceDetail/index.vue'
 // const activeIndex = ref('1')
 // const activeIndex2 = ref('1')
 // const handleSelect = (key, keyPath) => {

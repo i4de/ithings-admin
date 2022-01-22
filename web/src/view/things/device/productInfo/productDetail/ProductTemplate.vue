@@ -142,7 +142,7 @@ import {
   getProductTemplate,
   manageProductTemplate
 } from '@/api/things/productInfo'
-import { formatJson } from '../../js/json'
+import { formatJson } from '../../../js/json'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
