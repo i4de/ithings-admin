@@ -31,7 +31,7 @@ const timeRange = ref([
   new Date(2000, 10, 10, 10, 10),
   new Date(2000, 10, 11, 10, 10),
 ])
-const tableData = ref("")
+const tableData = ref('')
 </script>
 
 <script>

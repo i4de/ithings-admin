@@ -10,16 +10,16 @@
             <p>下方是为标准功能和自定义功能自动生成的JSON格式协议</p>
           </el-col>
           <el-col :span="6">
-            <el-button  type="success" round @click="copyTemplate">复制</el-button>
+            <el-button type="success" round @click="copyTemplate">复制</el-button>
           </el-col>
         </el-row>
         <el-row>
           <el-col style="border: 1px solid gray">
             <el-input
-                v-model="templateStr"
-                readonly="true"
-                :rows="20"
-                type="textarea"
+              v-model="templateStr"
+              readonly="true"
+              :rows="20"
+              type="textarea"
             />
           </el-col>
         </el-row>
@@ -98,11 +98,13 @@
               <el-button type="primary" size="small">新建自定义功能</el-button>
             </div>
           </template>
-          <el-table :data="tableData" style="width: 100%">
+          <el-table :data="metaTemplate"
+                    :tree-props="{ children: 'detail', hasChildren: 'hasDetail' }"
+                    style="width: 100%;">
             <el-table-column type="expand">
-              <template #default="props">
+              <template #default="props" >
                 <el-card class="box-card" style="width: 80%">
-                  <templateDetail :tmps="props.row.tmps" />
+                  <templateDetail :tmps="props.row.detail" />
                 </el-card>
               </template>
             </el-table-column>
@@ -114,9 +116,9 @@
               </template>
             </el-table-column>
             <el-table-column prop="id" label="标识符" />
-            <el-table-column prop="type" label="数据类型" />
+            <el-table-column prop="dataType" label="数据类型" />
             <el-table-column prop="mode" label="读写类型" />
-            <el-table-column prop="define" label="数据定义" />
+            <el-table-column prop="define" label="数据定义" style="word-break:break-all;"/>
             <el-table-column label="编辑">
               <template #default="scope">
                 <el-button
@@ -142,6 +144,7 @@ import {
   getProductTemplate,
   manageProductTemplate
 } from '@/api/things/productInfo'
+import { parseEvent, parseProperty, parseAction, parseModelTemplate } from './templateHandle'
 import { formatJson } from '../../../js/json'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -150,7 +153,17 @@ import useClipboard from 'vue-clipboard3'
 const route = useRoute()
 const productInfo = ref(JSON.parse(route.query.productInfo))
 const searchInfo = ref({ productID: productInfo.value.productID })
-const metaTemplate = ref({})
+const metaTemplate = ref([
+  {
+    modelType: 'property',
+    name: '蜂鸣',
+    id: 'buzzing',
+    dataType: 'int',
+    mode: 'r',
+    define: '',
+    detail: {}
+  }
+])
 const templateStr = ref('')
 
 const dialogTempCheckVisible = ref(false)
@@ -207,7 +220,7 @@ const getTableData = async() => {
   console.log('获取到:', table)
   if (table.code === 0) {
     templateStr.value = formatJson(table.data.template)
-    metaTemplate.value = JSON.parse(table.data.template)
+    metaTemplate.value = parseModelTemplate(JSON.parse(table.data.template))
     console.log('格式化后:', metaTemplate.value)
   }
 }
