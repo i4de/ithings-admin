@@ -98,17 +98,23 @@
               <el-button type="primary" size="small">新建自定义功能</el-button>
             </div>
           </template>
-          <el-table :data="metaTemplate"
-                    :tree-props="{ children: 'detail', hasChildren: 'hasDetail' }"
-                    style="width: 100%;">
+          <el-table
+            :data="metaTemplate"
+            :tree-props="{ children: 'detail', hasChildren: 'hasDetail' }"
+            style="width: 100%;"
+          >
             <el-table-column type="expand">
-              <template #default="props" >
+              <template #default="props">
                 <el-card class="box-card" style="width: 80%">
                   <templateDetail :tmps="props.row.detail" />
                 </el-card>
               </template>
             </el-table-column>
-            <el-table-column prop="funcType" label="功能类型" />
+            <el-table-column prop="funcType" label="功能类型" >
+              <template #default="scope">
+                {{ getFuncTypeName(scope.row.funcType) }}
+              </template>
+            </el-table-column>
             <el-table-column prop="name" label="功能名称">
               <template #default="scope">
                 {{ scope.row.name }}
@@ -118,11 +124,12 @@
             <el-table-column prop="id" label="标识符" />
             <el-table-column prop="dataType" label="数据类型" />
             <el-table-column prop="mode" label="读写类型" />
-            <el-table-column prop="define" label="数据定义" style="word-break:break-all;"/>
+            <el-table-column prop="define" label="数据定义" style="word-break:break-all;" />
             <el-table-column label="编辑">
               <template #default="scope">
                 <el-button
                   size="small"
+                  @click="edit(scope.row)"
                 >编辑</el-button>
                 <el-button
                   size="small"
@@ -133,9 +140,49 @@
           </el-table>
         </el-card>
       </el-col>
-
     </el-row>
-
+    <el-row>
+      <el-col>
+        <el-dialog v-model="dialogFromCustom" title="修改自定义功能" width="80%" :before-close="()=>closeDialog(1)">
+          <el-form :model="propertyForm" label-position="left" label-width="80px">
+            <el-form-item label="功能类型">
+              <el-radio-group v-model="propertyForm.funcType" size="small">
+                <el-radio-button label="property" >属性</el-radio-button>
+                <el-radio-button label="event" >事件</el-radio-button>
+                <el-radio-button label="action" >行为</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="功能名称">
+              <el-input v-model="propertyForm.name" clearable placeholder="支持中文、英文、数字、下划线的组合，最多不超过20个字符"/>
+            </el-form-item>
+            <el-form-item label="标识符">
+              <el-input v-model="propertyForm.id" clearable placeholder="第一个字符不能是数字，支持英文、数字、下划线的组合，最多不超过32个字符"/>
+            </el-form-item>
+            <el-form-item label="数据类型">
+              <el-radio-group v-model="propertyForm.dataType"  size="small">
+                <el-radio-button label="bool" >布尔型</el-radio-button>
+                <el-radio-button label="int" >整数型</el-radio-button>
+                <el-radio-button label="string" >字符串</el-radio-button>
+                <el-radio-button label="float" >浮点型</el-radio-button>
+                <el-radio-button label="enum" >枚举</el-radio-button>
+                <el-radio-button label="timestamp" >时间型</el-radio-button>
+                <el-radio-button label="struct" >结构体</el-radio-button>
+                <el-radio-button label="array" >数组</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="读写类型">
+              <el-radio-group v-model="propertyForm.mode"  size="small">
+                <el-radio-button label="wr" >读写</el-radio-button>
+                <el-radio-button label="r" >只读</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="描述">
+              <el-input v-model="propertyForm.desc" clearable placeholder="最多不超过80个字符"/>
+            </el-form-item>
+          </el-form>
+        </el-dialog>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -144,7 +191,7 @@ import {
   getProductTemplate,
   manageProductTemplate
 } from '@/api/things/productInfo'
-import { parseEvent, parseProperty, parseAction, parseModelTemplate } from './templateHandle'
+import { getFuncTypeName, parseModelTemplate } from './templateHandle'
 import { formatJson } from '../../../js/json'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -165,6 +212,29 @@ const metaTemplate = ref([
   }
 ])
 const templateStr = ref('')
+
+const dialogFromCustom = ref(false)
+const closeDialog = (typ) => {
+  console.log('closeDialog', typ)
+  if (typ === 1) {
+    dialogFromCustom.value = false
+  }
+}
+const edit = (column) => {
+  console.log('edit', column)
+  propertyForm.value = column
+  dialogFromCustom.value = true
+}
+
+const propertyForm = ref({
+  funcType: 'property',
+  name: '',
+  id: '',
+  dataType: 'bool',
+  mode: 'wr',
+  define: {},
+  desc: ''
+})
 
 const dialogTempCheckVisible = ref(false)
 const closeCheckDialog = () => {
