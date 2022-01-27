@@ -122,7 +122,11 @@
               </template>
             </el-table-column>
             <el-table-column prop="id" label="标识符" />
-            <el-table-column prop="dataType" label="数据类型" />
+            <el-table-column prop="dataType" label="数据类型" >
+              <template #default="scope">
+                {{ getMode(scope.row.mode) }}
+              </template>
+            </el-table-column>
             <el-table-column prop="mode" label="读写类型" />
             <el-table-column prop="define" label="数据定义" style="word-break:break-all;" />
             <el-table-column label="编辑">
@@ -172,7 +176,7 @@
             </el-form-item>
             <el-form-item label="读写类型">
               <el-radio-group v-model="propertyForm.mode"  size="small">
-                <el-radio-button label="wr" >读写</el-radio-button>
+                <el-radio-button label="rw" >读写</el-radio-button>
                 <el-radio-button label="r" >只读</el-radio-button>
               </el-radio-group>
             </el-form-item>
@@ -191,7 +195,7 @@ import {
   getProductTemplate,
   manageProductTemplate
 } from '@/api/things/productInfo'
-import { getFuncTypeName, parseModelTemplate } from './templateHandle'
+import { getFuncTypeName,getMode, parseModelTemplate } from './templateHandle'
 import { formatJson } from '../../../js/json'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'

@@ -1,6 +1,6 @@
-function getMode(mode) {
+export function getMode(mode) {
   if (mode === 'r') {
-    return '读'
+    return '只读'
   } else {
     return '读写'
   }
@@ -35,7 +35,7 @@ export function parseProperty(template) {
     id: template.id,
     dataType: template.define.type,
     define: getDefine(template.define),
-    mode: getMode(template.mode),
+    mode: template.mode,
     required: template.required,
     meta: template,
   }
@@ -85,7 +85,7 @@ export function parseEvent(template) {
     name: template.name,
     id: template.id,
     dataType: template.type,
-    mode: getMode(template.mode),
+    mode: template.mode,
     define: '-',
     required: template.required,
     meta: template,
