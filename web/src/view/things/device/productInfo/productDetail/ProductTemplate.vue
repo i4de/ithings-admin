@@ -51,7 +51,7 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-        <el-card class="box-card">
+        <el-card v-if="false" class="box-card">
           <template #header>
             <div class="card-header">
               <h1>标准功能</h1>
@@ -110,7 +110,7 @@
                 </el-card>
               </template>
             </el-table-column>
-            <el-table-column prop="funcType" label="功能类型" >
+            <el-table-column prop="funcType" label="功能类型">
               <template #default="scope">
                 {{ getFuncTypeName(scope.row.funcType) }}
               </template>
@@ -122,12 +122,16 @@
               </template>
             </el-table-column>
             <el-table-column prop="id" label="标识符" />
-            <el-table-column prop="dataType" label="数据类型" >
+            <el-table-column prop="dataType" label="数据类型">
+              <template #default="scope">
+                {{getDataType(scope.row.dataType) }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="mode" label="读写类型" >
               <template #default="scope">
                 {{ getMode(scope.row.mode) }}
               </template>
             </el-table-column>
-            <el-table-column prop="mode" label="读写类型" />
             <el-table-column prop="define" label="数据定义" style="word-break:break-all;" />
             <el-table-column label="编辑">
               <template #default="scope">
@@ -148,42 +152,7 @@
     <el-row>
       <el-col>
         <el-dialog v-model="dialogFromCustom" title="修改自定义功能" width="80%" :before-close="()=>closeDialog(1)">
-          <el-form :model="propertyForm" label-position="left" label-width="80px">
-            <el-form-item label="功能类型">
-              <el-radio-group v-model="propertyForm.funcType" size="small">
-                <el-radio-button label="property" >属性</el-radio-button>
-                <el-radio-button label="event" >事件</el-radio-button>
-                <el-radio-button label="action" >行为</el-radio-button>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="功能名称">
-              <el-input v-model="propertyForm.name" clearable placeholder="支持中文、英文、数字、下划线的组合，最多不超过20个字符"/>
-            </el-form-item>
-            <el-form-item label="标识符">
-              <el-input v-model="propertyForm.id" clearable placeholder="第一个字符不能是数字，支持英文、数字、下划线的组合，最多不超过32个字符"/>
-            </el-form-item>
-            <el-form-item label="数据类型">
-              <el-radio-group v-model="propertyForm.dataType"  size="small">
-                <el-radio-button label="bool" >布尔型</el-radio-button>
-                <el-radio-button label="int" >整数型</el-radio-button>
-                <el-radio-button label="string" >字符串</el-radio-button>
-                <el-radio-button label="float" >浮点型</el-radio-button>
-                <el-radio-button label="enum" >枚举</el-radio-button>
-                <el-radio-button label="timestamp" >时间型</el-radio-button>
-                <el-radio-button label="struct" >结构体</el-radio-button>
-                <el-radio-button label="array" >数组</el-radio-button>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="读写类型">
-              <el-radio-group v-model="propertyForm.mode"  size="small">
-                <el-radio-button label="rw" >读写</el-radio-button>
-                <el-radio-button label="r" >只读</el-radio-button>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="描述">
-              <el-input v-model="propertyForm.desc" clearable placeholder="最多不超过80个字符"/>
-            </el-form-item>
-          </el-form>
+          <templateFrom :temp="propertyForm"/>
         </el-dialog>
       </el-col>
     </el-row>
@@ -195,7 +164,8 @@ import {
   getProductTemplate,
   manageProductTemplate
 } from '@/api/things/productInfo'
-import { getFuncTypeName,getMode, parseModelTemplate } from './templateHandle'
+import templateFrom from './templateForm.vue'
+import {getDataType, getFuncTypeName, getMode, parseModelTemplate} from './templateHandle'
 import { formatJson } from '../../../js/json'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -226,7 +196,9 @@ const closeDialog = (typ) => {
 }
 const edit = (column) => {
   console.log('edit', column)
-  propertyForm.value = column
+  propertyForm.value = column.meta
+  propertyForm.value.funcType = column.funcType
+  console.log('edit init end', propertyForm)
   dialogFromCustom.value = true
 }
 
@@ -236,7 +208,18 @@ const propertyForm = ref({
   id: '',
   dataType: 'bool',
   mode: 'wr',
-  define: {},
+  define: {
+    type: 'int',
+    min: '0',
+    max: '100',
+    start: '0',
+    step: '1',
+    unit: '',
+    maping: {
+      0: '关',
+      1: '开'
+    }
+  },
   desc: ''
 })
 

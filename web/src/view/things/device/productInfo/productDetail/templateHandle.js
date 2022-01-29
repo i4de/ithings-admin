@@ -5,7 +5,26 @@ export function getMode(mode) {
     return '读写'
   }
 }
-
+export function getDataType(type) {
+  switch (type) {
+    case 'string':
+      return '字符串'
+    case 'bool':
+      return '布尔型'
+    case 'int':
+      return '整数型'
+    case 'float':
+      return '浮点型'
+    case 'enum':
+      return '枚举'
+    case 'timestamp':
+      return '时间型'
+    case 'struct':
+      return '结构体'
+    case 'array':
+      return '数组'
+  }
+}
 function getDefine(define) {
   var ret = ''
   switch (define.type) {
