@@ -3,6 +3,11 @@
     <el-form ref="form" :model="config" label-width="240px">
       <!--  System start  -->
       <el-collapse v-model="activeNames">
+        <el-collapse-item title="things配置" name="60">
+          <el-form-item label="webapi地址">
+            <el-input v-model.number="config.webapi.addr" />
+          </el-form-item>
+        </el-collapse-item>
         <el-collapse-item title="系统配置" name="1">
           <el-form-item label="环境值">
             <el-input v-model="config.system.env" />
@@ -355,6 +360,9 @@ const config = ref({
   system: {
     iplimitCount: 0,
     iplimitTime: 0
+  },
+  webapi: {
+    addr: 'http://localhost:7777'
   },
   jwt: {},
   casbin: {},
