@@ -25,7 +25,7 @@ export function getDataType(type) {
       return '数组'
   }
 }
-function getDefine(define) {
+export function getDefine(define) {
   var ret = ''
   switch (define.type) {
     case 'struct':

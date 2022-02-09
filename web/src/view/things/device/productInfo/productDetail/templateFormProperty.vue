@@ -34,6 +34,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="数据定义" v-if="from.define.type=='bool'||from.define.type=='string'||from.define.type=='enum'||from.define.type=='timestamp'||from.define.type=='struct'||(from.define.type=='array'&&(from.define.arrayInfo.type=='string'||from.define.arrayInfo.type=='struct'))" >
+        <dataDefine v-if="from.define.type=='struct'" v-model="from.define.specs" func-type="property" />
         <div v-if="from.define.type=='string'">
           <el-input-number v-model="from.define.max" step-strictly /><span>&#12288;字节</span>
         </div>
@@ -94,13 +95,13 @@
       </el-form-item>
       <el-form-item v-if="from.define.type=='int'||from.define.type=='float'||(from.define.type=='array'&&(from.define.arrayInfo.type=='int'||from.define.arrayInfo.type=='float'))" label="初始值">
         <el-input-number v-if="from.define.type=='float'" v-model="from.define.start" :precision="3" step-strictly />
-        <el-input-number v-if="from.define.type=='int'"  v-model="from.define.start" step-strictly />
+        <el-input-number v-if="from.define.type=='int'" v-model="from.define.start" step-strictly />
         <el-input-number v-if="from.define.type=='array'&&from.define.arrayInfo.type=='float'" v-model="from.define.arrayInfo.start" :precision="3" step-strictly />
-        <el-input-number v-if="from.define.type=='array'&&from.define.arrayInfo.type=='int'"   v-model="from.define.arrayInfo.start" step-strictly />
+        <el-input-number v-if="from.define.type=='array'&&from.define.arrayInfo.type=='int'" v-model="from.define.arrayInfo.start" step-strictly />
       </el-form-item>
       <el-form-item v-if="from.define.type=='int'||from.define.type=='float'||(from.define.type=='array'&&(from.define.arrayInfo.type=='int'||from.define.arrayInfo.type=='float'))" label="步长">
         <el-input-number v-if="from.define.type=='float'" v-model="from.define.step" :precision="3" step-strictly />
-        <el-input-number v-if="from.define.type=='int'"  v-model="from.define.step" step-strictly />
+        <el-input-number v-if="from.define.type=='int'" v-model="from.define.step" step-strictly />
         <el-input-number v-if="from.define.type=='array'&&from.define.arrayInfo.type=='float'" v-model="from.define.arrayInfo.step" :precision="3" step-strictly />
         <el-input-number v-if="from.define.type=='array'&&from.define.arrayInfo.type=='int'" v-model="from.define.arrayInfo.step" step-strictly />
       </el-form-item>
@@ -121,6 +122,7 @@
 </template>
 
 <script setup>
+import dataDefine from './dataDefine.vue'
 import { defineProps, ref, defineEmits, defineExpose } from 'vue'
 const props = defineProps({
   temp: {
@@ -149,7 +151,20 @@ const props = defineProps({
             start: '0',
             step: '1',
             unit: ''
-          }
+          },
+          specs: [
+            {
+              id: 'longitude',
+              name: 'GPS经度',
+              dataType: {
+                type: 'float',
+                min: '-180',
+                max: '180',
+                start: '0',
+                step: '0.001',
+                unit: '度'
+              }
+            }]
         },
         desc: ''
       }
