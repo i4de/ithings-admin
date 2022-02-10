@@ -33,8 +33,10 @@
           <el-radio-button label="struct">结构体</el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="数据定义" v-if="from.define.type=='bool'||from.define.type=='string'||from.define.type=='enum'||from.define.type=='timestamp'||from.define.type=='struct'||(from.define.type=='array'&&(from.define.arrayInfo.type=='string'||from.define.arrayInfo.type=='struct'))" >
-        <dataDefine v-if="from.define.type=='struct'" v-model="from.define.specs" func-type="property" />
+      <el-form-item v-if="from.define.type=='bool'||from.define.type=='string'||from.define.type=='enum'||from.define.type=='timestamp'||from.define.type=='struct'||(from.define.type=='array'&&(from.define.arrayInfo.type=='string'||from.define.arrayInfo.type=='struct'))" label="数据定义">
+        <dataDefine style="width: 100%" v-if="from.define.type=='struct'" v-model="from.define.specs" func-type="property" />
+        <dataDefine style="width: 100%" v-if="from.define.type=='array'" v-model="from.define.arrayInfo" func-type="property" />
+
         <div v-if="from.define.type=='string'">
           <el-input-number v-model="from.define.max" step-strictly /><span>&#12288;字节</span>
         </div>
@@ -123,6 +125,7 @@
 
 <script setup>
 import dataDefine from './dataDefine.vue'
+import { fmtFormDefine } from './dataDefine'
 import { defineProps, ref, defineEmits, defineExpose } from 'vue'
 const props = defineProps({
   temp: {
@@ -180,29 +183,8 @@ const props = defineProps({
 })
 
 const from = ref(props.temp)
-if (from.value.define.type == 'enum' && from.value.define.mapping != undefined) {
-  from.value.define.enum = []
-  for (var i in from.value.define.mapping) {
-    from.value.define.enum.push({
-      key: i,
-      value: from.value.define.mapping[i]
-    })
-  }
-}
-if (from.value.define.arrayInfo == undefined) {
-  from.value.define.arrayInfo = {
-    type: 'int',
-    min: '0',
-    max: '100',
-    start: '0',
-    step: '1',
-    unit: ''
-  }
-}
+from.value.define = fmtFormDefine(from.value.define)
 
-if (from.value.define.mapping == undefined) {
-  from.value.define.mapping = { '0': '关', '1': '开' }
-}
 const deleteDefineRow = (type, index, row) => {
   console.log(type, index, row)
   switch (type) {
