@@ -9,7 +9,7 @@
         </el-radio-group>
       </el-form-item>
     </el-form>
-    <tempProperty v-if="propertyForm.funcType=='property'" :temp="propertyForm" @save="save" />
+    <tempProperty v-if="propertyForm.funcType=='property'" :temp="propertyForm" @save="save" @cancel="cancel"/>
 
   </div>
 </template>
@@ -17,6 +17,7 @@
 <script setup>
 import tempProperty from './templateFormProperty.vue'
 import { defineProps, ref, defineEmits, defineExpose } from 'vue'
+import { onUpdated } from 'vue'
 const props = defineProps({
   temp: {
     default: function() {
@@ -50,8 +51,19 @@ const props = defineProps({
     type: String
   }
 })
+console.log('templateForm', props.temp)
 const propertyForm = ref(props.temp)
+const emit = defineEmits(['save', 'cancel'])
 const save = (value) => {
-  console.log('formsave', value)
+  console.log('templateForm save')
+  emit('save', value)
 }
+const cancel = () => {
+  console.log('templateForm cancel')
+  emit('cancel')
+}
+onUpdated(() => {
+  console.log('templateForm updated', props.temp)
+  propertyForm.value = props.temp
+})
 </script>

@@ -122,12 +122,12 @@
               </template>
             </el-table-column>
             <el-table-column prop="id" label="标识符" />
-            <el-table-column prop="dataType" label="数据类型">
+            <el-table-column label="数据类型">
               <template #default="scope">
-                {{getDataType(scope.row.dataType) }}
+                {{ getDataType(scope.row.dataType) }}
               </template>
             </el-table-column>
-            <el-table-column prop="mode" label="读写类型" >
+            <el-table-column prop="mode" label="读写类型">
               <template #default="scope">
                 {{ getMode(scope.row.mode) }}
               </template>
@@ -152,7 +152,7 @@
     <el-row>
       <el-col>
         <el-dialog v-model="dialogFromCustom" title="修改自定义功能" width="80%" :before-close="()=>closeDialog(1)">
-          <templateFrom :temp="propertyForm"/>
+          <templateFrom :temp="propertyForm" @save="dialogSave" @cancel="dialogCancel"/>
         </el-dialog>
       </el-col>
     </el-row>
@@ -165,7 +165,7 @@ import {
   manageProductTemplate
 } from '@/api/things/productInfo'
 import templateFrom from './templateForm.vue'
-import {getDataType, getFuncTypeName, getMode, parseModelTemplate} from './templateHandle'
+import { getDataType, getFuncTypeName, getMode, parseModelTemplate } from './templateHandle'
 import { formatJson } from '../../../js/json'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -194,11 +194,19 @@ const closeDialog = (typ) => {
     dialogFromCustom.value = false
   }
 }
+const dialogSave = (value) => {
+  console.log('dialogSave', value)
+  dialogFromCustom.value = false
+}
+const dialogCancel = () => {
+  console.log('dialogCancel')
+  dialogFromCustom.value = false
+}
 const edit = (column) => {
-  console.log('edit', column)
+  console.log('edit', column, metaTemplate.value)
   propertyForm.value = column.meta
   propertyForm.value.funcType = column.funcType
-  console.log('edit init end', propertyForm)
+  console.log('edit init end', propertyForm.value)
   dialogFromCustom.value = true
 }
 

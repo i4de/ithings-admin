@@ -8,7 +8,7 @@
         <el-input v-model="from.id" clearable placeholder="第一个字符不能是数字，支持英文、数字、下划线的组合，最多不超过32个字符" />
       </el-form-item>
       <el-form-item label="数据类型">
-        <el-radio-group v-model="from.define.type" size="small">
+        <el-radio-group v-model="from.define.type" size="small" @change="onTypeChange">
           <el-radio-button label="bool">布尔型</el-radio-button>
           <el-radio-button label="int">整数型</el-radio-button>
           <el-radio-button label="string">字符串</el-radio-button>
@@ -34,8 +34,8 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="from.define.type=='bool'||from.define.type=='string'||from.define.type=='enum'||from.define.type=='timestamp'||from.define.type=='struct'||(from.define.type=='array'&&(from.define.arrayInfo.type=='string'||from.define.arrayInfo.type=='struct'))" label="数据定义">
-        <dataDefine style="width: 100%" v-if="from.define.type=='struct'" v-model="from.define.specs" func-type="property" />
-        <dataDefine style="width: 100%" v-if="from.define.type=='array'" v-model="from.define.arrayInfo" func-type="property" />
+        <dataDefine v-if="from.define.type=='struct'" v-model="from.define.specs" style="width: 100%" defineType="dataType" />
+        <dataDefine v-if="from.define.type=='array'&&from.define.arrayInfo.type=='struct'" v-model="from.define.arrayInfo.specs" style="width: 100%" hasStruct="true" />
 
         <div v-if="from.define.type=='string'">
           <el-input-number v-model="from.define.max" step-strictly /><span>&#12288;字节</span>
@@ -57,32 +57,7 @@
           <el-col :span="14" />
         </el-row>
         <span v-if="from.define.type=='timestamp'">INT类型的UTC时间戳（秒）</span>
-        <div v-if="from.define.type=='enum'">
-          <el-row>
-            <el-table :data="from.define.enum">
-              <el-table-column label="枚举键值">
-                <template #default="scope">
-                  <el-input-number v-model="scope.row.key" />
-                </template>
-              </el-table-column>
-              <el-table-column label="枚举项描述">
-                <template #default="scope">
-                  <el-input v-model="scope.row.value" />
-                </template>
-              </el-table-column>
-              <el-table-column>
-                <template #default="scope">
-                  <el-button @click="deleteDefineRow('enum',scope.$index,scope.row)">删除</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-row>
-          <el-row>
-            <el-col>
-              <el-button @click="addDefineRow">+添加枚举项</el-button>
-            </el-col>
-          </el-row>
-        </div>
+        <mappingDefine v-if="from.define.type=='enum'" v-model="from.define.mapping"/>
       </el-form-item>
       <el-form-item v-if="from.define.type=='int'||from.define.type=='float'||(from.define.type=='array'&&(from.define.arrayInfo.type=='int'||from.define.arrayInfo.type=='float'))" label="数值范围">
         <el-input-number v-if="from.define.type=='float'" v-model="from.define.min" :precision="3" />
@@ -116,17 +91,18 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button>取消</el-button>
+      <el-button @click="cancel">取消</el-button>
       <el-button type="primary" @click="save">保存</el-button>
     </div>
   </div>
-
 </template>
 
 <script setup>
 import dataDefine from './dataDefine.vue'
+import mappingDefine from './mappingDefine.vue'
 import { fmtFormDefine } from './dataDefine'
 import { defineProps, ref, defineEmits, defineExpose } from 'vue'
+import { onUpdated } from 'vue'
 const props = defineProps({
   temp: {
     default: function() {
@@ -184,23 +160,30 @@ const props = defineProps({
 
 const from = ref(props.temp)
 from.value.define = fmtFormDefine(from.value.define)
-
-const deleteDefineRow = (type, index, row) => {
-  console.log(type, index, row)
-  switch (type) {
-    case 'enum':
-      from.value.define.enum.splice(index, 1)
-  }
-}
-const addDefineRow = () => {
-  if (from.value.define.enum == undefined) {
-    from.value.define.enum = []
-  }
-  from.value.define.enum.push({ key: 1, value: '' })
-}
-const emit = defineEmits(['save'])
+console.log('formProperty form', from.value)
+onUpdated(() => {
+  console.log('templateFormProperty updated', props.temp)
+  from.value = props.temp
+  from.value.define = fmtFormDefine(props.temp)
+  console.log('templateFormProperty updated changed', from.value)
+})
+const emit = defineEmits(['save', 'cancel'])
 const save = () => {
-  console.log('save', from.value)
-  emit('save', 'hello world')
+  console.log('formProperty save', from.value)
+  emit('save', from.value)
+}
+const cancel = () => {
+  console.log('cancel', from.value)
+  emit('cancel')
+}
+const onTypeChange = (type) => {
+  console.log('onTypeChange', type, from.value)
+  switch (type) {
+    case 'struct':
+      from.value.define.specs = fmtFormDefine(from.value.define.specs)
+      break
+    case 'array':
+      from.value.define.arrayInfo = fmtFormDefine(from.value.define.arrayInfo)
+  }
 }
 </script>
