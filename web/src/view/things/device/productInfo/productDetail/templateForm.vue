@@ -9,7 +9,7 @@
         </el-radio-group>
       </el-form-item>
     </el-form>
-    <tempProperty v-if="propertyForm.funcType=='property'" :temp="propertyForm" @save="save" @cancel="cancel"/>
+    <tempProperty v-show="propertyForm.funcType=='property'" :temp="propertyForm" @save="(value)=>save('property',value)" @cancel="cancel" />
 
   </div>
 </template>
@@ -52,10 +52,10 @@ const props = defineProps({
   }
 })
 console.log('templateForm', props.temp)
-const propertyForm = ref(props.temp)
+const propertyForm = ref(JSON.parse(JSON.stringify(props.temp)))
 const emit = defineEmits(['save', 'cancel'])
-const save = (value) => {
-  console.log('templateForm save')
+const save = (type, value) => {
+  console.log('templateForm save', type, value)
   emit('save', value)
 }
 const cancel = () => {
@@ -64,6 +64,6 @@ const cancel = () => {
 }
 onUpdated(() => {
   console.log('templateForm updated', props.temp)
-  propertyForm.value = props.temp
+  propertyForm.value = JSON.parse(JSON.stringify(props.temp))
 })
 </script>

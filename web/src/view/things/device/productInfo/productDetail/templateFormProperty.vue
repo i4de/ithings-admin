@@ -34,8 +34,8 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="from.define.type=='bool'||from.define.type=='string'||from.define.type=='enum'||from.define.type=='timestamp'||from.define.type=='struct'||(from.define.type=='array'&&(from.define.arrayInfo.type=='string'||from.define.arrayInfo.type=='struct'))" label="数据定义">
-        <dataDefine v-if="from.define.type=='struct'" v-model="from.define.specs" style="width: 100%" defineType="dataType" />
-        <dataDefine v-if="from.define.type=='array'&&from.define.arrayInfo.type=='struct'" v-model="from.define.arrayInfo.specs" style="width: 100%" hasStruct="true" />
+        <dataDefine v-if="from.define.type=='struct'" v-model="from.define.specs" style="width: 100%" define-type="dataType" />
+        <dataDefine v-if="from.define.type=='array'&&from.define.arrayInfo.type=='struct'" v-model="from.define.arrayInfo.specs" style="width: 100%" has-struct="true" />
 
         <div v-if="from.define.type=='string'">
           <el-input-number v-model="from.define.max" step-strictly /><span>&#12288;字节</span>
@@ -57,7 +57,7 @@
           <el-col :span="14" />
         </el-row>
         <span v-if="from.define.type=='timestamp'">INT类型的UTC时间戳（秒）</span>
-        <mappingDefine v-if="from.define.type=='enum'" v-model="from.define.mapping"/>
+        <mappingDefine v-if="from.define.type=='enum'" v-model="from.define.mapping" />
       </el-form-item>
       <el-form-item v-if="from.define.type=='int'||from.define.type=='float'||(from.define.type=='array'&&(from.define.arrayInfo.type=='int'||from.define.arrayInfo.type=='float'))" label="数值范围">
         <el-input-number v-if="from.define.type=='float'" v-model="from.define.min" :precision="3" />
@@ -170,6 +170,7 @@ onUpdated(() => {
 const emit = defineEmits(['save', 'cancel'])
 const save = () => {
   console.log('formProperty save', from.value)
+  // todo 这里需要进行属性过滤,将不需要填写的属性删除了
   emit('save', from.value)
 }
 const cancel = () => {
@@ -179,11 +180,9 @@ const cancel = () => {
 const onTypeChange = (type) => {
   console.log('onTypeChange', type, from.value)
   switch (type) {
-    case 'struct':
-      from.value.define.specs = fmtFormDefine(from.value.define.specs)
-      break
     case 'array':
       from.value.define.arrayInfo = fmtFormDefine(from.value.define.arrayInfo)
+      break
   }
 }
 </script>
