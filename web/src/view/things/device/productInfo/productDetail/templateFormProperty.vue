@@ -163,7 +163,7 @@ from.value.define = fmtFormDefine(from.value.define)
 console.log('formProperty form', from.value)
 onUpdated(() => {
   console.log('templateFormProperty updated', props.temp)
-  from.value = props.temp
+  from.value = JSON.parse(JSON.stringify(props.temp))
   from.value.define = fmtFormDefine(props.temp)
   console.log('templateFormProperty updated changed', from.value)
 })

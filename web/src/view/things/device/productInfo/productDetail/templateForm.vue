@@ -51,8 +51,34 @@ const props = defineProps({
     type: String
   }
 })
-console.log('templateForm', props.temp)
-const propertyForm = ref(JSON.parse(JSON.stringify(props.temp)))
+console.log('templateForm',props.type, props.temp)
+const propertyForm = ref({})
+switch (props.type) {
+  case 'update':
+    propertyForm.value = props.temp
+    break
+  case 'insert':
+    propertyForm.value = {
+      funcType: 'property',
+      name: '',
+      id: '',
+      dataType: 'bool',
+      mode: 'wr',
+      define: {
+        type: 'int',
+        min: '0',
+        max: '100',
+        start: '0',
+        step: '1',
+        unit: '',
+        maping: {
+          0: '关',
+          1: '开'
+        }
+      },
+      desc: ''
+    }
+}
 const emit = defineEmits(['save', 'cancel'])
 const save = (type, value) => {
   console.log('templateForm save', type, value)
@@ -64,6 +90,18 @@ const cancel = () => {
 }
 onUpdated(() => {
   console.log('templateForm updated', props.temp)
-  propertyForm.value = JSON.parse(JSON.stringify(props.temp))
+  switch (props.type) {
+    case 'update':
+      propertyForm.value = JSON.parse(JSON.stringify(props.temp))
+      break
+    case 'insert':
+      propertyForm.value = {
+        funcType: 'property',
+        name: '',
+        id: '',
+        dataType: 'bool',
+        mode: 'wr'
+      }
+  }
 })
 </script>

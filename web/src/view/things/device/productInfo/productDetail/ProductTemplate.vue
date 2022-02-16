@@ -95,7 +95,7 @@
           <template #header>
             <div class="card-header">
               <h1>自定义功能</h1>
-              <el-button type="primary" size="small">新建自定义功能</el-button>
+              <el-button type="primary" @click="newTemp" size="small">新建自定义功能</el-button>
             </div>
           </template>
           <el-table
@@ -142,6 +142,7 @@
                 <el-button
                   size="small"
                   type="danger"
+                  @click="del(scope.row,scope.$index)"
                 >删除</el-button>
               </template>
             </el-table-column>
@@ -152,7 +153,7 @@
     <el-row>
       <el-col>
         <el-dialog v-model="dialogFromCustom" title="修改自定义功能" width="80%" :before-close="()=>closeDialog(1)">
-          <templateFrom :temp="propertyForm" @save="dialogSave" @cancel="dialogCancel" />
+          <templateFrom :temp="propertyForm" :type="tempForm" @save="dialogSave" @cancel="dialogCancel" />
         </el-dialog>
       </el-col>
     </el-row>
@@ -202,12 +203,24 @@ const dialogCancel = () => {
   console.log('dialogCancel')
   dialogFromCustom.value = false
 }
+const tempForm = ref('insert')
+const newTemp = () => {
+  console.log('newTemp')
+  tempForm.value = 'insert'
+  propertyForm.value = null
+  dialogFromCustom.value = true
+}
+
 const edit = (column) => {
   console.log('edit', column, metaTemplate.value)
+  tempForm.value = 'update'
   propertyForm.value = column.meta
   propertyForm.value.funcType = column.funcType
   console.log('edit init end', propertyForm.value)
   dialogFromCustom.value = true
+}
+const del = (column, index) => {
+  console.log('del', column, index)
 }
 
 const propertyForm = ref({
