@@ -221,6 +221,7 @@ const edit = (column) => {
 }
 const del = (column, index) => {
   console.log('del', column, index)
+  metaTemplate.value.splice(index, 1)
 }
 
 const propertyForm = ref({
