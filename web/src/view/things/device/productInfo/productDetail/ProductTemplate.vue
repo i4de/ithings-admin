@@ -150,13 +150,10 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col>
-        <el-dialog v-model="dialogFromCustom" title="修改自定义功能" width="80%" :before-close="()=>closeDialog(1)">
-          <templateFrom :temp="propertyForm" :type="tempForm" @save="dialogSave" @cancel="dialogCancel" />
-        </el-dialog>
-      </el-col>
-    </el-row>
+
+    <el-dialog v-model="dialogFromCustom" title="修改自定义功能" width="80%" :before-close="()=>closeDialog(1)">
+      <templateFrom v-if="dialogFromCustom" :temp="propertyForm" :type="tempForm" @save="dialogSave" @cancel="dialogCancel" />
+    </el-dialog>
   </div>
 </template>
 
@@ -221,7 +218,6 @@ const edit = (column) => {
 }
 const del = (column, index) => {
   console.log('del', column, index)
-  metaTemplate.value.splice(index, 1)
 }
 
 const propertyForm = ref({
@@ -232,10 +228,10 @@ const propertyForm = ref({
   mode: 'wr',
   define: {
     type: 'int',
-    min: '0',
-    max: '100',
-    start: '0',
-    step: '1',
+    min: 0,
+    max: 100,
+    start: 0,
+    step: 1,
     unit: '',
     maping: {
       0: '关',

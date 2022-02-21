@@ -28,12 +28,12 @@
         <template #default="scope">
           <el-row v-if="scope.row.define.type=='bool'">
             <el-col :span="12">
-              <el-input v-model="scope.row.define['mapping']['0']" size="mini" @change="onChange(scope.$index)">
+              <el-input v-model="scope.row.define['mapping'][0]" size="mini" @change="onChange(scope.$index)">
                 <template #prepend>0</template>
               </el-input>
             </el-col>
             <el-col :span="12">
-              <el-input v-model="scope.row.define['mapping']['1']" size="mini" @change="onChange(scope.$index)">
+              <el-input v-model="scope.row.define['mapping'][1]" size="mini" @change="onChange(scope.$index)">
                 <template #prepend>1</template>
               </el-input>
             </el-col>
@@ -43,7 +43,7 @@
           </div>
           <span v-if="scope.row.define.type=='timestamp'">INT类型的UTC时间戳（秒）</span>
           <mappingDefine v-if="scope.row.define.type=='enum'" v-model="scope.row.define.mapping" />
-          <el-form-item v-if="scope.row.define.type=='int'||scope.row.define.type=='float'||(scope.row.define.type=='array'&&(scope.row.define.arrayInfo.type=='int'||scope.row.define.arrayInfo.type=='float'))" label="数值范围">
+          <el-form-item v-if="['int', 'float'].includes(scope.row.define.type) || (scope.row.define.type=='array'&&['int', 'float'].includes(scope.row.define.arrayInfo.type))" label="数值范围">
             <el-input-number v-if="scope.row.define.type=='float'" v-model="scope.row.define.min" :precision="3" @change="onChange(scope.$index)" />
             <el-input-number v-if="scope.row.define.type=='int'" v-model="scope.row.define.min" step-strictly @change="onChange(scope.$index)" />
             <el-input-number v-if="scope.row.define.type=='array'&&scope.row.define.arrayInfo.type=='int'" v-model="scope.row.define.arrayInfo.min" step-strictly @change="onChange(scope.$index)" />
@@ -97,7 +97,7 @@ const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
   modelValue: {
     type: Object,
-    default: null
+    default: () => {}
   },
   hasStruct: {
     type: Boolean,

@@ -45,12 +45,12 @@
         </div>
         <el-row v-if="from.define.type=='bool'">
           <el-col :span="5">
-            <el-input v-model="from.define['mapping']['0']" size="mini">
+            <el-input v-model="from.define['mapping'][0]" size="mini">
               <template #prepend>0</template>
             </el-input>
           </el-col>
           <el-col :span="5">
-            <el-input v-model="from.define['mapping']['1']" size="mini">
+            <el-input v-model="from.define['mapping'][1]" size="mini">
               <template #prepend>1</template>
             </el-input>
           </el-col>
@@ -114,10 +114,10 @@ const props = defineProps({
         mode: 'wr',
         define: {
           type: 'int',
-          min: '0',
-          max: '100',
-          start: '0',
-          step: '1',
+          min: 0,
+          max: 100,
+          start: 0,
+          step: 1,
           unit: '',
           maping: {
             0: '关',
@@ -125,10 +125,10 @@ const props = defineProps({
           },
           arrayInfo: {
             type: 'int',
-            min: '0',
-            max: '100',
-            start: '0',
-            step: '1',
+            min: 0,
+            max: 100,
+            start: 0,
+            step: 1,
             unit: ''
           },
           specs: [
@@ -137,10 +137,10 @@ const props = defineProps({
               name: 'GPS经度',
               dataType: {
                 type: 'float',
-                min: '-180',
-                max: '180',
-                start: '0',
-                step: '0.001',
+                min: -180,
+                max: 180,
+                start: 0,
+                step: 0.001,
                 unit: '度'
               }
             }]
@@ -162,10 +162,13 @@ const from = ref(props.temp)
 from.value.define = fmtFormDefine(from.value.define)
 console.log('formProperty form', from.value)
 onUpdated(() => {
-  console.log('templateFormProperty updated', props.temp)
-  from.value = JSON.parse(JSON.stringify(props.temp))
-  from.value.define = fmtFormDefine(props.temp)
-  console.log('templateFormProperty updated changed', from.value)
+
+    console.log(123)
+
+  // console.log('templateFormProperty updated', props.temp)
+  // from.value = JSON.parse(JSON.stringify(props.temp))
+  // from.value.define = fmtFormDefine(props.temp)
+  // console.log('templateFormProperty updated changed', from.value)
 })
 const emit = defineEmits(['save', 'cancel'])
 const save = () => {

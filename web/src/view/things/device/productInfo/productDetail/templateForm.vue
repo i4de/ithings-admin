@@ -1,22 +1,22 @@
 <template>
   <div>
-    <el-form>
-      <el-form-item label="功能类型">
-        <el-radio-group v-model="propertyForm.funcType" size="small">
+    <el-form :modal="propertyForm">
+      <el-form-item label="功能类型123">
+        <el-radio-group v-model="propertyForm.funcType" @Change="handleRadio" size="small">
           <el-radio-button label="property">属性</el-radio-button>
           <el-radio-button label="event">事件</el-radio-button>
           <el-radio-button label="action">行为</el-radio-button>
         </el-radio-group>
       </el-form-item>
     </el-form>
-    <tempProperty v-show="propertyForm.funcType=='property'" :temp="propertyForm" @save="(value)=>save('property',value)" @cancel="cancel" />
+    <tempProperty v-if="propertyForm.funcType==='property'" :temp="propertyForm" @save="(value)=>save('property',value)" @cancel="cancel" />
 
   </div>
 </template>
 
 <script setup>
 import tempProperty from './templateFormProperty.vue'
-import { defineProps, ref, defineEmits, defineExpose } from 'vue'
+import { defineProps, ref, defineEmits, defineExpose, watch } from 'vue'
 import { onUpdated } from 'vue'
 const props = defineProps({
   temp: {
@@ -29,10 +29,10 @@ const props = defineProps({
         mode: 'wr',
         define: {
           type: 'int',
-          min: '0',
-          max: '100',
-          start: '0',
-          step: '1',
+          min: 0,
+          max: 100,
+          start: 0,
+          step: 1,
           unit: '',
           maping: {
             0: '关',
@@ -66,10 +66,10 @@ switch (props.type) {
       mode: 'wr',
       define: {
         type: 'int',
-        min: '0',
-        max: '100',
-        start: '0',
-        step: '1',
+        min: 0,
+        max: 100,
+        start: 0,
+        step: 1,
         unit: '',
         maping: {
           0: '关',
@@ -88,20 +88,30 @@ const cancel = () => {
   console.log('templateForm cancel')
   emit('cancel')
 }
+
+const handleRadio = (value) => {
+    console.log('value888', value )
+}
+
+
+// watch(() => props.type, (value, oldVal) => {
+//    console.log('value-------------', value  )
+// })
+
 onUpdated(() => {
-  console.log('templateForm updated', props.temp)
-  switch (props.type) {
-    case 'update':
-      propertyForm.value = JSON.parse(JSON.stringify(props.temp))
-      break
-    case 'insert':
-      propertyForm.value = {
-        funcType: 'property',
-        name: '',
-        id: '',
-        dataType: 'bool',
-        mode: 'wr'
-      }
-  }
+  // console.log('templateForm updated', props.temp)
+  // switch (props.type) {
+  //   case 'update':
+  //     propertyForm.value = JSON.parse(JSON.stringify(props.temp))
+  //     break
+  //   case 'insert':
+  //     propertyForm.value = {
+  //       funcType: 'property',
+  //       name: '',
+  //       id: '',
+  //       dataType: 'bool',
+  //       mode: 'wr'
+  //     }
+  // }
 })
 </script>
