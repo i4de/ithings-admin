@@ -2,15 +2,18 @@
   <div>
     <el-form :modal="propertyForm">
       <el-form-item label="功能类型123">
-        <el-radio-group v-model="propertyForm.funcType" @Change="handleRadio" size="small">
+        <el-radio-group v-model="propertyForm.funcType" size="small" @Change="handleRadio">
           <el-radio-button label="property">属性</el-radio-button>
           <el-radio-button label="event">事件</el-radio-button>
           <el-radio-button label="action">行为</el-radio-button>
         </el-radio-group>
       </el-form-item>
     </el-form>
-    <tempProperty v-if="propertyForm.funcType==='property'" :temp="propertyForm" @save="(value)=>save('property',value)" @cancel="cancel" />
-
+    <tempProperty v-if="propertyForm.funcType==='property'" v-model="property" @save="(value)=>save('property',value)" @cancel="cancel" />
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="cancel">取消</el-button>
+      <el-button type="primary" @click="save">保存</el-button>
+    </div>
   </div>
 </template>
 
@@ -51,7 +54,7 @@ const props = defineProps({
     type: String
   }
 })
-console.log('templateForm',props.type, props.temp)
+console.log('templateForm', props.type, props.temp)
 const propertyForm = ref({})
 switch (props.type) {
   case 'update':
@@ -80,7 +83,10 @@ switch (props.type) {
     }
 }
 const emit = defineEmits(['save', 'cancel'])
+const property = ref(propertyForm)
+
 const save = (type, value) => {
+  // todo 这里需要对数据进行校验
   console.log('templateForm save', type, value)
   emit('save', value)
 }
@@ -90,28 +96,7 @@ const cancel = () => {
 }
 
 const handleRadio = (value) => {
-    console.log('value888', value )
+  console.log('value888', value)
 }
 
-
-// watch(() => props.type, (value, oldVal) => {
-//    console.log('value-------------', value  )
-// })
-
-onUpdated(() => {
-  // console.log('templateForm updated', props.temp)
-  // switch (props.type) {
-  //   case 'update':
-  //     propertyForm.value = JSON.parse(JSON.stringify(props.temp))
-  //     break
-  //   case 'insert':
-  //     propertyForm.value = {
-  //       funcType: 'property',
-  //       name: '',
-  //       id: '',
-  //       dataType: 'bool',
-  //       mode: 'wr'
-  //     }
-  // }
-})
 </script>

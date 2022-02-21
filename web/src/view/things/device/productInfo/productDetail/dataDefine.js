@@ -76,20 +76,21 @@ export function fmtModelOut(model, defineType) {
 }
 
 export function fmtFormDefine(define) {
-  let newDefine = define || {}
-  newDefine.mapping = newDefine.mapping || {0: '关', 1: '开'}
+  const newDefine = define || {}
+  newDefine.mapping = newDefine.mapping || { 0: '关', 1: '开' }
   newDefine.min = newDefine.min || 0
   newDefine.max = newDefine.max || 100
   newDefine.start = newDefine.start || 0
   newDefine.step = newDefine.step || 1
   newDefine.unit = newDefine.unit || ''
   newDefine.arrayInfo = newDefine.arrayInfo || {
-      type: 'int',
-      min: 0,
-      max: 100,
-      start: 0,
-      step: 1,
-      unit: ''
+    type: 'int',
+    min: 0,
+    max: 100,
+    start: 0,
+    step: 1,
+    unit: '',
+    specs: []
   }
   newDefine.specs = newDefine.specs || []
   return newDefine

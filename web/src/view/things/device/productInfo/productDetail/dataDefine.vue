@@ -54,19 +54,19 @@
             <el-input-number v-if="scope.row.define.type=='array'&&scope.row.define.arrayInfo.type=='int'" v-model="scope.row.define.arrayInfo.max" step-strictly @change="onChange(scope.$index)" />
             <el-input-number v-if="scope.row.define.type=='array'&&scope.row.define.arrayInfo.type=='float'" v-model="scope.row.define.arrayInfo.max" :precision="3" @change="onChange(scope.$index)" />
           </el-form-item>
-          <el-form-item v-if="scope.row.define.type=='int'||scope.row.define.type=='float'||(scope.row.define.type=='array'&&(scope.row.define.arrayInfo.type=='int'||scope.row.define.arrayInfo.type=='float'))" label="初始值">
+          <el-form-item v-if="['int', 'float'].includes(scope.row.define.type)||(scope.row.define.type=='array'&&(['int', 'float'].includes(scope.row.define.arrayInfo.type)))" label="初始值">
             <el-input-number v-if="scope.row.define.type=='float'" v-model="scope.row.define.start" :precision="3" step-strictly @change="onChange(scope.$index)" />
             <el-input-number v-if="scope.row.define.type=='int'" v-model="scope.row.define.start" step-strictly @change="onChange(scope.$index)" />
             <el-input-number v-if="scope.row.define.type=='array'&&scope.row.define.arrayInfo.type=='float'" v-model="scope.row.define.arrayInfo.start" :precision="3" step-strictly @change="onChange(scope.$index)" />
             <el-input-number v-if="scope.row.define.type=='array'&&scope.row.define.arrayInfo.type=='int'" v-model="scope.row.define.arrayInfo.start" step-strictly @change="onChange(scope.$index)" />
           </el-form-item>
-          <el-form-item v-if="scope.row.define.type=='int'||scope.row.define.type=='float'||(scope.row.define.type=='array'&&(scope.row.define.arrayInfo.type=='int'||scope.row.define.arrayInfo.type=='float'))" label="步长">
+          <el-form-item v-if="['int', 'float'].includes(scope.row.define.type)||(scope.row.define.type=='array'&&(['int', 'float'].includes(scope.row.define.arrayInfo.type)))" label="步长">
             <el-input-number v-if="scope.row.define.type=='float'" v-model="scope.row.define.step" :precision="3" step-strictly @change="onChange(scope.$index)" />
             <el-input-number v-if="scope.row.define.type=='int'" v-model="scope.row.define.step" step-strictly @change="onChange(scope.$index)" />
             <el-input-number v-if="scope.row.define.type=='array'&&scope.row.define.arrayInfo.type=='float'" v-model="scope.row.define.arrayInfo.step" :precision="3" step-strictly @change="onChange(scope.$index)" />
             <el-input-number v-if="scope.row.define.type=='array'&&scope.row.define.arrayInfo.type=='int'" v-model="scope.row.define.arrayInfo.step" step-strictly @change="onChange(scope.$index)" />
           </el-form-item>
-          <el-form-item v-if="scope.row.define.type=='int'||scope.row.define.type=='float'||(scope.row.define.type=='array'&&(scope.row.define.arrayInfo.type=='int'||scope.row.define.arrayInfo.type=='float'))" label="单位">
+          <el-form-item v-if="['int', 'float'].includes(scope.row.define.type)||(scope.row.define.type=='array'&&(['int', 'float'].includes(scope.row.define.arrayInfo.type)))" label="单位">
             <el-input v-if="scope.row.define.type=='array'" v-model="scope.row.define.arrayInfo.unit" clearable placeholder="0-12个字符" @change="onChange(scope.$index)" />
             <el-input v-else v-model="scope.row.define.unit" clearable placeholder="0-12个字符" @change="onChange(scope.$index)" />
           </el-form-item>
@@ -96,8 +96,8 @@ import { fmtModel, defultDefine, fmtModelOut, fmtFormDefine } from './dataDefine
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
   modelValue: {
-    type: Object,
-    default: () => {}
+    type: Array,
+    default: [],
   },
   hasStruct: {
     type: Boolean,
@@ -126,11 +126,15 @@ const onChange = (index) => {
 }
 const deleteRow = (index) => {
   tableData.value.splice(index, 1)
+  props.modelValue.splice(index, 1)
+  emit('update:modelValue', props.modelValue)
 }
 const addRow = () => {
   const getOne = JSON.parse(JSON.stringify(defultDefine))
   console.log(getOne)
   tableData.value.push(getOne)
+  props.modelValue.push(fmtModelOut(getOne, props.defineType))
+  emit('update:modelValue', props.modelValue)
 }
 </script>
 
