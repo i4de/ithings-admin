@@ -105,7 +105,7 @@ const props = defineProps({
     type: Object,
     default: function() {
       return {
-        funcType: 'property',
+        funcType: 'properties',
         name: '',
         id: '',
         dataType: 'bool',

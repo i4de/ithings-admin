@@ -49,7 +49,7 @@ export function getDefine(define) {
 export function parseProperty(template) {
   console.log('parseProperty', template)
   var ret = {
-    funcType: 'property',
+    funcType: 'properties',
     name: template.name,
     id: template.id,
     dataType: template.define.type,
@@ -78,7 +78,7 @@ export function parseProperty(template) {
 export function parseAction(template) {
   console.log('parseAction', template)
   var ret = {
-    funcType: 'action',
+    funcType: 'actions',
     name: template.name,
     id: template.id,
     required: template.required,
@@ -89,18 +89,18 @@ export function parseAction(template) {
 
 export function getFuncTypeName(name) {
   switch (name) {
-    case 'property':
+    case 'properties':
       return '属性'
-    case 'action':
+    case 'actions':
       return '行为'
-    case 'event':
+    case 'events':
       return '事件'
   }
 }
 export function parseEvent(template) {
   console.log('parseEvent', template)
   var ret = {
-    funcType: 'event',
+    funcType: 'events',
     name: template.name,
     id: template.id,
     dataType: template.type,

@@ -152,7 +152,7 @@
     </el-row>
 
     <el-dialog v-model="dialogFromCustom" title="修改自定义功能" width="80%" :before-close="()=>closeDialog(1)">
-      <templateFrom v-if="dialogFromCustom" :temp="propertyForm" :type="tempForm" @save="dialogSave" @cancel="dialogCancel" />
+      <templateFrom v-if="dialogFromCustom" :templateModel="templateModel" :temp="propertyForm" :type="tempForm" @save="dialogSave" @cancel="dialogCancel" />
     </el-dialog>
   </div>
 </template>
@@ -174,7 +174,7 @@ const productInfo = ref(JSON.parse(route.query.productInfo))
 const searchInfo = ref({ productID: productInfo.value.productID })
 const metaTemplate = ref([
   {
-    modelType: 'property',
+    modelType: 'properties',
     name: '蜂鸣',
     id: 'buzzing',
     dataType: 'int',
@@ -184,6 +184,7 @@ const metaTemplate = ref([
   }
 ])
 const templateStr = ref('')
+const templateModel = ref({})
 
 const dialogFromCustom = ref(false)
 const closeDialog = (typ) => {
@@ -221,7 +222,7 @@ const del = (column, index) => {
 }
 
 const propertyForm = ref({
-  funcType: 'property',
+  funcType: 'properties',
   name: '',
   id: '',
   dataType: 'bool',
@@ -295,6 +296,7 @@ const getTableData = async() => {
   console.log('获取到:', table)
   if (table.code === 0) {
     templateStr.value = formatJson(table.data.template)
+    templateModel.value = JSON.parse(table.data.template)
     metaTemplate.value = parseModelTemplate(JSON.parse(table.data.template))
     console.log('格式化后:', metaTemplate.value)
   }
