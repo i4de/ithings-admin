@@ -19,9 +19,13 @@
 
 <script setup>
 import tempProperty from './templateFormProperty.vue'
+import {
+  manageProductTemplate
+} from '@/api/things/productInfo'
 import { defineProps, ref, defineEmits, defineExpose, watch } from 'vue'
-import { fmtTemplateModel } from './dataDefine'
+import { fmtTemplateModel, checkTemplateModel } from './dataDefine'
 import { onUpdated } from 'vue'
+import { ElMessage } from 'element-plus'
 const props = defineProps({
   templateModel: {
     type: Object,
@@ -68,10 +72,13 @@ const props = defineProps({
       return 'insert'
     },
     type: String
+  },
+  productID: {
+    type: String
   }
 })
-const templateModel = ref(props.templateModel)
-console.log('templateForm', props.type, props.temp)
+const templateModel = ref(JSON.parse(JSON.stringify(props.templateModel)))
+console.log('templateForm', props.type, props.productID, props.temp, templateModel.value)
 const propertyForm = ref({})
 const defaultForm = {
   funcType: 'properties',
@@ -103,10 +110,36 @@ switch (props.type) {
 const emit = defineEmits(['save', 'cancel'])
 const property = ref(propertyForm)
 
-const save = (type, value) => {
-  // todo 这里需要对数据进行校验
-  templateModel.value = fmtTemplateModel(templateModel.value, propertyForm.value, props.temp.id)
-  console.log('templateForm save', type, value)
+const save = async(type, value) => {
+  console.log('templateForm save', props.templateModel, templateModel.value)
+  const id = ''
+  if (props.type == 'update') {
+    id = props.temp.id
+  }
+  const err = checkTemplateModel(templateModel.value, propertyForm.value, id)
+  if (err != undefined) {
+    ElMessage({
+      type: 'error',
+      message: err
+    })
+    return
+  }
+
+  templateModel.value = fmtTemplateModel(templateModel.value, propertyForm.value, id)
+  const templateStrInput = JSON.stringify(templateModel.value)
+  console.log('templateForm save', type, value, templateStrInput)
+  var res = await manageProductTemplate({
+    info: {
+      productID: props.productID,
+      template: templateStrInput
+    }
+  })
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: '修改成功'
+    })
+  }
   emit('save', value)
 }
 const cancel = () => {

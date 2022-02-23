@@ -1,4 +1,5 @@
-
+// import lodash from 'lodash' // 引入axios
+// const lodash = require('lodash')
 export const defultDefine = {
   name: '',
   id: '',
@@ -95,7 +96,26 @@ export function fmtFormDefine(define) {
   newDefine.specs = newDefine.specs || []
   return newDefine
 }
-
+export function checkTemplateModel(templateModel, column, oldId) {
+  try {
+    templateModel[column.funcType].forEach((item, index) => {
+      console.log('checkTemplateModel for get', index, item)
+      if (item.id === oldId) { // 如果找到需要修改的,则直接修改即可
+        throw new Error('succ')
+      }
+      if (item.id === column.id) { // id重复了需要报错
+        throw new Error('id 重复了')
+      }
+    })
+  } catch (e) {
+    if (e.message == 'succ') {
+      return
+    } else {
+      return e.message
+    }
+  }
+  return
+}
 // template 是完整的物模型模板,column是修改后的参数,funcType是物模型操作类型,oldId是操作的id,如果是新增,则为undefined
 export function fmtTemplateModel(templateModel, column, oldId) {
   // todo 外面对列的修改会影响到模型的变化,需要排查一下
@@ -103,17 +123,20 @@ export function fmtTemplateModel(templateModel, column, oldId) {
   const funcType = column.funcType
   delete newCol.funcType
   console.log('fmtTemplateModel', funcType, oldId, templateModel, newCol)
-
-  templateModel[funcType].forEach((item, index) => {
-    console.log('fmtTemplateModel for get', index, item)
-    if (item.id === oldId) { // 如果找到需要修改的,则直接修改即可
-      templateModel[funcType][index] = newCol
-      return templateModel
-    }
-    if (item.id === newCol.id) { // id重复了需要报错
-      alert('id重复了', item.id, newCol.id)
-    }
-  })
+  try {
+    templateModel[funcType].forEach((item, index) => {
+      console.log('fmtTemplateModel for get', index, item)
+      if (item.id === oldId) { // 如果找到需要修改的,则直接修改即可
+        templateModel[funcType][index] = newCol
+        throw new Error('succ')
+      }
+      if (item.id === newCol.id) { // id重复了需要报错
+        alert('id重复了', item.id, newCol.id)
+      }
+    })
+  } catch (e) {
+    return templateModel
+  }
   templateModel[funcType].push(newCol)
   console.log('fmtTemplateModel get', templateModel)
 

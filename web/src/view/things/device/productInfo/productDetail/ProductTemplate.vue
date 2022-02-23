@@ -152,7 +152,7 @@
     </el-row>
 
     <el-dialog v-model="dialogFromCustom" title="修改自定义功能" width="80%" :before-close="()=>closeDialog(1)">
-      <templateFrom v-if="dialogFromCustom" :templateModel="templateModel" :temp="propertyForm" :type="tempForm" @save="dialogSave" @cancel="dialogCancel" />
+      <templateFrom v-if="dialogFromCustom" :productID="productInfo.productID" :templateModel="templateModel" :temp="propertyForm" :type="tempForm" @save="dialogSave" @cancel="dialogCancel" />
     </el-dialog>
   </div>
 </template>
@@ -196,6 +196,7 @@ const closeDialog = (typ) => {
 const dialogSave = (value) => {
   console.log('dialogSave', 'old:', propertyForm.value, 'new:', value)
   dialogFromCustom.value = false
+  getTableData()
 }
 const dialogCancel = () => {
   console.log('dialogCancel')

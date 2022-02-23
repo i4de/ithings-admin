@@ -156,7 +156,7 @@ const props = defineProps({
   }
 })
 
-const tableData = ref(props.modelValue)
+const tableData = ref(JSON.parse(JSON.stringify(props.modelValue)))
 tableData.value.define = fmtFormDefine(tableData.value.define)
 console.log('formProperty form', tableData.value)
 
@@ -164,7 +164,7 @@ const onChange = (type) => {
   console.log('templateFormProperty onChange', type, tableData.value[type])
   if (tableData.value[type] !== undefined) {
     // 这些都是define 以外的
-    props.modelValue = tableData.value[type]
+    props.modelValue[type] = tableData.value[type]
   } else {
     switch (type) {
       case 'type':
@@ -181,7 +181,8 @@ const onDefineChange = (type) => {
   console.log('templateFormProperty onDefineChange', type, tableData.value.define[type])
   if (tableData.value[type] !== undefined) {
     // 这些都是define 以外的
-    props.modelValue = tableData.value.define[type]
+    alert('onDefineChange err:' + type)
+    props.modelValue.define[type] = tableData.value.define[type]
   } else {
     switch (type) {
       case 'arrayInfo.type':
