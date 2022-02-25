@@ -227,7 +227,7 @@ const propertyForm = ref({
   name: '',
   id: '',
   dataType: 'bool',
-  mode: 'wr',
+  mode: 'rw',
   define: {
     type: 'int',
     min: 0,

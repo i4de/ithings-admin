@@ -49,7 +49,7 @@ const props = defineProps({
         name: '',
         id: '',
         dataType: 'bool',
-        mode: 'wr',
+        mode: 'rw',
         define: {
           type: 'int',
           min: 0,
@@ -85,7 +85,7 @@ const defaultForm = {
   name: '',
   id: '',
   dataType: 'bool',
-  mode: 'wr',
+  mode: 'rw',
   define: {
     type: 'int',
     min: 0,
@@ -112,7 +112,7 @@ const property = ref(propertyForm)
 
 const save = async(type, value) => {
   console.log('templateForm save', props.templateModel, templateModel.value)
-  const id = ''
+  let id = ''
   if (props.type == 'update') {
     id = props.temp.id
   }

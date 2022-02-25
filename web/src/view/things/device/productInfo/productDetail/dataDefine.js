@@ -3,7 +3,7 @@
 export const defultDefine = {
   name: '',
   id: '',
-  mode: 'wr',
+  mode: 'rw',
   define: {
     type: 'int',
     min: 0,
@@ -52,7 +52,7 @@ export function fmtModel(define) {
     const getOne = {
       name: item.name,
       id: item.id,
-      mode: 'wr',
+      mode: 'rw',
       define: item.define
     }
     if (getOne.define == undefined) {
@@ -70,7 +70,7 @@ export function fmtModelOut(model, defineType) {
   const getOne = {
     name: model.name,
     id: model.id,
-    mode: 'wr',
+    mode: 'rw',
   }
   getOne[defineType] = JSON.parse(JSON.stringify(model.define))
   return getOne

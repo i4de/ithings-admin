@@ -26,7 +26,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="tableData.define.type=='array'" label="元素类型">
-        <el-radio-group v-model="tableData.define.arrayInfo.type" size="small" @change="onChange('arrayInfo.type')">
+        <el-radio-group v-model="tableData.define.arrayInfo.type" size="small" @change="onChange('arrayInfo')">
           <el-radio-button label="int">整数型</el-radio-button>
           <el-radio-button label="string">字符串</el-radio-button>
           <el-radio-button label="float">浮点型</el-radio-button>
@@ -41,7 +41,7 @@
           <el-input-number v-model="tableData.define.max" step-strictly @change="onChange('max')" /><span>&#12288;字节</span>
         </div>
         <div v-if="tableData.define.type=='array' && tableData.define.arrayInfo.type=='string'">
-          <el-input-number v-model="tableData.define.max" step-strictly @change="onChange('max')" /><span>&#12288;字节</span>
+          <el-input-number v-model="tableData.define.max" step-strictly @change="onChange('arrayInfo')" /><span>&#12288;字节</span>
         </div>
         <el-row v-if="tableData.define.type=='bool'">
           <el-col :span="5">
@@ -62,28 +62,28 @@
       <el-form-item v-if="['int', 'float'].includes(tableData.define.type)||(tableData.define.type=='array'&&['int', 'float'].includes(tableData.define.arrayInfo.type))" label="数值范围">
         <el-input-number v-if="tableData.define.type=='float'" v-model="tableData.define.min" :precision="3" @change="onChange('min')" />
         <el-input-number v-if="tableData.define.type=='int'" v-model="tableData.define.min" step-strictly @change="onChange('min')" />
-        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='int'" v-model="tableData.define.arrayInfo.min" step-strictly @change="onChange('min')" />
-        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='float'" v-model="tableData.define.arrayInfo.min" :precision="3" @change="onChange('min')" />
+        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='int'" v-model="tableData.define.arrayInfo.min" step-strictly @change="onChange('arrayInfo')" />
+        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='float'" v-model="tableData.define.arrayInfo.min" :precision="3" @change="onChange('arrayInfo')" />
         <span> &#12288;-&#12288; </span>
         <el-input-number v-if="tableData.define.type=='float'" v-model="tableData.define.max" :precision="3" @change="onChange('max')" />
         <el-input-number v-if="tableData.define.type=='int'" v-model="tableData.define.max" step-strictly @change="onChange('max')" />
-        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='int'" v-model="tableData.define.arrayInfo.max" step-strictly @change="onChange('max')" />
-        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='float'" v-model="tableData.define.arrayInfo.max" :precision="3" @change="onChange('max')" />
+        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='int'" v-model="tableData.define.arrayInfo.max" step-strictly @change="onChange('arrayInfo')" />
+        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='float'" v-model="tableData.define.arrayInfo.max" :precision="3" @change="onChange('arrayInfo')" />
       </el-form-item>
       <el-form-item v-if="['int', 'float'].includes(tableData.define.type)||(tableData.define.type=='array'&&['int', 'float'].includes(tableData.define.arrayInfo.type))" label="初始值">
         <el-input-number v-if="tableData.define.type=='float'" v-model="tableData.define.start" :precision="3" step-strictly @change="onChange('start')" />
         <el-input-number v-if="tableData.define.type=='int'" v-model="tableData.define.start" step-strictly @change="onChange('start')" />
-        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='float'" v-model="tableData.define.arrayInfo.start" :precision="3" step-strictly @change="onChange('start')" />
-        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='int'" v-model="tableData.define.arrayInfo.start" step-strictly @change="onChange('start')" />
+        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='float'" v-model="tableData.define.arrayInfo.start" :precision="3" step-strictly @change="onChange('arrayInfo')" />
+        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='int'" v-model="tableData.define.arrayInfo.start" step-strictly @change="onChange('arrayInfo')" />
       </el-form-item>
       <el-form-item v-if="['int', 'float'].includes(tableData.define.type)||(tableData.define.type=='array'&&['int', 'float'].includes(tableData.define.arrayInfo.type))" label="步长">
         <el-input-number v-if="tableData.define.type=='float'" v-model="tableData.define.step" :precision="3" step-strictly @change="onChange('step')" />
         <el-input-number v-if="tableData.define.type=='int'" v-model="tableData.define.step" step-strictly @change="onChange('step')" />
-        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='float'" v-model="tableData.define.arrayInfo.step" :precision="3" step-strictly @change="onChange('step')" />
-        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='int'" v-model="tableData.define.arrayInfo.step" step-strictly @change="onChange('step')" />
+        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='float'" v-model="tableData.define.arrayInfo.step" :precision="3" step-strictly @change="onChange('arrayInfo')" />
+        <el-input-number v-if="tableData.define.type=='array'&&tableData.define.arrayInfo.type=='int'" v-model="tableData.define.arrayInfo.step" step-strictly @change="onChange('arrayInfo')" />
       </el-form-item>
       <el-form-item v-if="['int', 'float'].includes(tableData.define.type)||(tableData.define.type=='array'&&['int', 'float'].includes(tableData.define.arrayInfo.type))" label="单位">
-        <el-input v-if="tableData.define.type=='array'" v-model="tableData.define.arrayInfo.unit" clearable placeholder="0-12个字符" @change="onChange('unit')" />
+        <el-input v-if="tableData.define.type=='array'" v-model="tableData.define.arrayInfo.unit" clearable placeholder="0-12个字符" @change="onChange('arrayInfo')" />
         <el-input v-else v-model="tableData.define.unit" clearable placeholder="0-12个字符" @change="onChange('unit')" />
       </el-form-item>
       <el-form-item label="描述">
@@ -109,7 +109,7 @@ const props = defineProps({
         name: '',
         id: '',
         dataType: 'bool',
-        mode: 'wr',
+        mode: 'rw',
         define: {
           type: 'int',
           min: 0,
@@ -179,20 +179,17 @@ const onChange = (type) => {
 
 const onDefineChange = (type) => {
   console.log('templateFormProperty onDefineChange', type, tableData.value.define[type])
-  if (tableData.value[type] !== undefined) {
-    // 这些都是define 以外的
-    alert('onDefineChange err:' + type)
+  if (tableData.value.define[type] !== undefined) {
     props.modelValue.define[type] = tableData.value.define[type]
   } else {
-    switch (type) {
-      case 'arrayInfo.type':
-        props.modelValue.define.arrayInfo = tableData.value.define.arrayInfo
-    }
+    // 这些都是define 以外的
+    alert('onDefineChange err:' + type)
   }
 }
 
 const onTypeChange = (type) => {
   console.log('templateFormProperty onTypeChange', type, tableData.value)
+  props.modelValue.define['type'] = type
   switch (type) {
     case 'array':
       tableData.value.define.arrayInfo = fmtFormDefine(tableData.value.define.arrayInfo)
