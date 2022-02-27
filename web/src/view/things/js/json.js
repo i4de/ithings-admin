@@ -95,7 +95,6 @@ export function formatJson(jsonObj, callback) {
   jsonArray = jsonString.split('\r\n')
   // 将转换完成的字符串根据PADDING值来组合成最终的形态
   jsonArray.forEach(function(item, index) {
-    console.log(item)
     var i = 0
     // 表示缩进的位数，以tab作为计数单位
     var indent = 0
@@ -119,6 +118,5 @@ export function formatJson(jsonObj, callback) {
     pad += indent
   })
   // 返回的数据需要去除两边的空格
-  console.log(jsonObj, formatted)
   return formatted.trim()
 }

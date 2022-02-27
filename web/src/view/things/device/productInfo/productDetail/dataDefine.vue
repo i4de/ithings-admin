@@ -127,6 +127,7 @@ const onChange = (index) => {
 const deleteRow = (index) => {
   tableData.value.splice(index, 1)
   props.modelValue.splice(index, 1)
+  console.log('datadefine deleteRow', props.modelValue)
   emit('update:modelValue', props.modelValue)
 }
 const addRow = () => {

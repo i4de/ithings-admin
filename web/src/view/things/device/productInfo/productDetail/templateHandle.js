@@ -60,19 +60,24 @@ export function parseProperty(template) {
   }
   var define = template.define
   if (define.type == 'struct') {
-    var detail = []
-    define.specs.forEach(function(value, index, array) {
-      detail.push({
-        name: value.name,
-        id: value.id,
-        dataType: value.dataType.type,
-        define: getDefine(value.dataType)
-      })
-    })
-    ret.detail = detail
+    ret.detail = getDetail(define.specs, 'dataType')
     ret.hasDetail = true
   }
   return ret
+}
+
+function getDetail(values, defineName) {
+  defineName = defineName || 'define'
+  var detail = []
+  values.forEach(function(value, index, array) {
+    detail.push({
+      name: value.name,
+      id: value.id,
+      dataType: value[defineName].type,
+      define: getDefine(value[defineName])
+    })
+  })
+  return detail
 }
 
 export function parseAction(template) {
@@ -82,7 +87,11 @@ export function parseAction(template) {
     name: template.name,
     id: template.id,
     required: template.required,
+    define: '-',
     meta: template,
+    hasDetail: true,
+    input: getDetail(template.input),
+    output: getDetail(template.input)
   }
   return ret
 }
@@ -108,6 +117,8 @@ export function parseEvent(template) {
     define: '-',
     required: template.required,
     meta: template,
+    detail: getDetail(template.params),
+    hasDetail: true
   }
 
   return ret
@@ -126,8 +137,8 @@ export function parseModelTemplate(template) {
       ret.push(parseEvent(value))
     })
   }
-  if (template.action != undefined) {
-    template.action.forEach(function(value, index, array) {
+  if (template.actions != undefined) {
+    template.actions.forEach(function(value, index, array) {
       ret.push(parseAction(value))
     })
   }

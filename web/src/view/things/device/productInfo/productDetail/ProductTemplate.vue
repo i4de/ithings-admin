@@ -105,8 +105,14 @@
           >
             <el-table-column type="expand">
               <template #default="props">
-                <el-card class="box-card" style="width: 80%">
+                <el-card v-if="props.row.funcType!='actions'" class="box-card" style="width: 80%">
                   <templateDetail :tmps="props.row.detail" />
+                </el-card>
+                <el-card v-else class="box-card" style="width: 80%">
+                  <span>调用参数</span>
+                  <templateDetail :tmps="props.row.input" />
+                  <span>返回参数</span>
+                  <templateDetail :tmps="props.row.output" />
                 </el-card>
               </template>
             </el-table-column>
@@ -152,7 +158,7 @@
     </el-row>
 
     <el-dialog v-model="dialogFromCustom" title="修改自定义功能" width="80%" :before-close="()=>closeDialog(1)">
-      <templateFrom v-if="dialogFromCustom" :productID="productInfo.productID" :templateModel="templateModel" :temp="propertyForm" :type="tempForm" @save="dialogSave" @cancel="dialogCancel" />
+      <templateFrom v-if="dialogFromCustom" :funcType="funcType" :productID="productInfo.productID" :templateModel="templateModel" :temp="propertyForm" :type="tempForm" @save="dialogSave" @cancel="dialogCancel" />
     </el-dialog>
   </div>
 </template>
@@ -206,6 +212,7 @@ const tempForm = ref('insert')
 const newTemp = () => {
   console.log('newTemp')
   tempForm.value = 'insert'
+  funcType.value = null
   propertyForm.value = null
   dialogFromCustom.value = true
 }
@@ -214,16 +221,15 @@ const edit = (column) => {
   console.log('edit', column, metaTemplate.value)
   tempForm.value = 'update'
   propertyForm.value = column.meta
-  propertyForm.value.funcType = column.funcType
+  funcType.value = column.funcType
   console.log('edit init end', propertyForm.value)
   dialogFromCustom.value = true
 }
 const del = (column, index) => {
   console.log('del', column, index)
 }
-
+const funcType = ref('properties')
 const propertyForm = ref({
-  funcType: 'properties',
   name: '',
   id: '',
   dataType: 'bool',

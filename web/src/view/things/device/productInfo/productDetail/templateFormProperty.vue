@@ -105,10 +105,8 @@ const props = defineProps({
     type: Object,
     default: function() {
       return {
-        funcType: 'properties',
         name: '',
         id: '',
-        dataType: 'bool',
         mode: 'rw',
         define: {
           type: 'int',

@@ -96,9 +96,9 @@ export function fmtFormDefine(define) {
   newDefine.specs = newDefine.specs || []
   return newDefine
 }
-export function checkTemplateModel(templateModel, column, oldId) {
+export function checkTemplateModel(funcType,templateModel, column, oldId) {
   try {
-    templateModel[column.funcType].forEach((item, index) => {
+    templateModel[funcType].forEach((item, index) => {
       console.log('checkTemplateModel for get', index, item)
       if (item.id === oldId) { // 如果找到需要修改的,则直接修改即可
         throw new Error('succ')
@@ -117,11 +117,9 @@ export function checkTemplateModel(templateModel, column, oldId) {
   return
 }
 // template 是完整的物模型模板,column是修改后的参数,funcType是物模型操作类型,oldId是操作的id,如果是新增,则为undefined
-export function fmtTemplateModel(templateModel, column, oldId) {
+export function fmtTemplateModel(funcType,templateModel, column, oldId) {
   // todo 外面对列的修改会影响到模型的变化,需要排查一下
   const newCol = JSON.parse(JSON.stringify(column))
-  const funcType = column.funcType
-  delete newCol.funcType
   console.log('fmtTemplateModel', funcType, oldId, templateModel, newCol)
   try {
     templateModel[funcType].forEach((item, index) => {
