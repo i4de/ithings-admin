@@ -9,9 +9,6 @@
           <el-tab-pane label="设备列表" name="second">
             <DeviceList/>
           </el-tab-pane>
-          <el-tab-pane label="设备开发" name="third">
-            <DeviceDetail/>
-          </el-tab-pane>
         </el-tabs>
       </el-col>
       <el-col :span="4">
@@ -113,7 +110,6 @@
 import { ref } from 'vue'
 import ProductTemplate from './ProductTemplate.vue'
 import DeviceList from '../../deviceInfo/deviceList.vue'
-import DeviceDetail from '../../deviceInfo/deviceDetail/index.vue'
 // const activeIndex = ref('1')
 // const activeIndex2 = ref('1')
 // const handleSelect = (key, keyPath) => {

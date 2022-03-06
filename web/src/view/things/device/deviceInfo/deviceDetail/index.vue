@@ -2,7 +2,7 @@
 <div>
   <el-row>
     <el-col>
-      设备名称:fwefwe
+      设备名称:{{deviceInfo.deviceName}}
     </el-col>
   </el-row>
   <el-row>
@@ -11,11 +11,11 @@
         <el-tab-pane label="设备信息" name="first">
           <DeviceInfo :deviceInfo="deviceInfo" :productInfo="productInfo"/>
         </el-tab-pane>
+        <el-tab-pane label="设备云端日志" name="third">
+          <DescribeDeviceData :deviceInfo="deviceInfo" :productInfo="productInfo"/>
+        </el-tab-pane>
         <el-tab-pane label="云端诊断日志" name="second">
           <ListHubLog/>
-        </el-tab-pane>
-        <el-tab-pane label="设备云端日志" name="third">
-          <DescribeDeviceData/>
         </el-tab-pane>
       </el-tabs>
     </el-col>
@@ -34,6 +34,7 @@ const activeName = ref('first')
 const handleClick = (tab, event) => {
   console.log(tab, event)
 }
+console.log('deviceDetail')
 const route = useRoute()
 const productInfo = ref(JSON.parse(route.query.productInfo))
 const deviceInfo = ref(JSON.parse(route.query.deviceInfo))

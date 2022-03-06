@@ -227,8 +227,9 @@ const router = useRouter()
 const goInDevice = async(device) => {
   console.log('goInDevice', device)
   const deviceInfo = JSON.stringify(device)
+  const product = JSON.stringify(productInfo.value)
   await router.push({ name: 'deviceDetail',
-    query: { productInfo: route.query.productInfo, deviceInfo: deviceInfo }})
+    query: { productInfo: product, deviceInfo: deviceInfo }})
 }
 
 getTableData()
