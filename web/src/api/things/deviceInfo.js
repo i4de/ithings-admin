@@ -16,6 +16,22 @@ export const findDeviceInfo = (params) => {
   })
 }
 
+export const getDeviceData = (params) => {
+  return service({
+    url: '/things/device/getDeviceData',
+    method: 'get',
+    params
+  })
+}
+
+export const getDeviceDescribeLog = (params) => {
+  return service({
+    url: '/things/device/getDeviceDescribeLog',
+    method: 'get',
+    params
+  })
+}
+
 // @Tags DeviceInfo
 // @Summary 分页获取DeviceInfo列表
 // @Security ApiKeyAuth

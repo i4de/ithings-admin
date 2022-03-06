@@ -21,6 +21,8 @@ func (s *DeviceRouter) InitDeviceRouter(Router *gin.RouterGroup) {
 	var ManageDeviceInfo = api.ApiGroupApp.DeviceApi.ManageDeviceInfo
 	var GetUserCoreList = api.ApiGroupApp.UserApi.GetUserCoreList
 	var GetUserInfos = api.ApiGroupApp.UserApi.GetUserInfos
+	var GetDeviceData = api.ApiGroupApp.DeviceApi.GetDeviceData
+	var GetDeviceDescribeLog = api.ApiGroupApp.DeviceApi.GetDeviceDescribeLog
 	{
 		DeviceRouter.POST("manageProductInfo", ManageProductInfo)  // 管理ProductInfo
 		DeviceRouter.GET("findProductInfo", FindProductInfo)       // 根据ID获取ProductInfo
@@ -35,5 +37,8 @@ func (s *DeviceRouter) InitDeviceRouter(Router *gin.RouterGroup) {
 
 		DeviceRouter.GET("getUserCoreList", GetUserCoreList) // 管理设备信息
 		DeviceRouter.POST("getUserInfos", GetUserInfos)      // 管理设备信息
+
+		DeviceRouter.GET("getDeviceData", GetDeviceData) // 获取设备数据
+		DeviceRouter.GET("getDeviceDescribeLog", GetDeviceDescribeLog) // 获取设备日志
 	}
 }

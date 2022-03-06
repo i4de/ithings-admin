@@ -2,20 +2,20 @@
   <div>
     <div class="search-term">
       <el-row justify="">
-          <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
-            <el-form-item>
-              <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
-              <el-button size="mini" type="primary" icon="el-icon-plus" @click="openDialog">新增</el-button>
-              <el-popover v-model="deleteVisible" placement="top" width="160">
-                <p>确定要删除吗？</p>
-                <div style="text-align: right; margin: 0">
-                  <el-button size="mini" type="text" @click="deleteVisible = false">取消</el-button>
-                  <el-button size="mini" type="primary" @click="onDelete">确定</el-button>
-                </div>
-                <el-button slot="reference" icon="el-icon-delete" size="mini" type="danger" style="margin-left: 10px;">批量删除</el-button>
-              </el-popover>
-            </el-form-item>
-          </el-form>
+        <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
+          <el-form-item>
+            <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
+            <el-button size="mini" type="primary" icon="el-icon-plus" @click="openDialog">新增</el-button>
+            <el-popover v-model="deleteVisible" placement="top" width="160">
+              <p>确定要删除吗？</p>
+              <div style="text-align: right; margin: 0">
+                <el-button size="mini" type="text" @click="deleteVisible = false">取消</el-button>
+                <el-button size="mini" type="primary" @click="onDelete">确定</el-button>
+              </div>
+              <el-button slot="reference" icon="el-icon-delete" size="mini" type="danger" style="margin-left: 10px;">批量删除</el-button>
+            </el-popover>
+          </el-form-item>
+        </el-form>
       </el-row>
 
     </div>
@@ -28,7 +28,11 @@
       :data="tableData"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column label="设备名称" prop="deviceName" width="120" />
+      <el-table-column label="设备名称" prop="deviceName" width="120">
+        <template #default="scope">
+          <el-button :plain="true" type="text" @click="goInDevice(scope.row)">{{ scope.row.deviceName }}</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="设备秘钥" prop="secret" width="120" />
       <el-table-column label="固件版本" prop="version" width="120" />
       <el-table-column label="日志级别" width="120">
@@ -96,7 +100,7 @@ import {
   manageDeviceInfo
 } from '@/api/things/deviceInfo' //  此处请自行替换地址
 import * as vars from '@/view/things/device/vars'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { fmtDate } from '../../js/utils'
 import { ref } from 'vue'
@@ -219,6 +223,14 @@ const getTableData = async() => {
     pageSize.value = table.data.pageSize
   }
 }
+const router = useRouter()
+const goInDevice = async(device) => {
+  console.log('goInDevice', device)
+  const deviceInfo = JSON.stringify(device)
+  await router.push({ name: 'deviceDetail',
+    query: { productInfo: route.query.productInfo, deviceInfo: deviceInfo }})
+}
+
 getTableData()
 
 </script>

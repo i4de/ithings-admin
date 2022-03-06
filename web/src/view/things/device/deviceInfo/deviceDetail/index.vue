@@ -9,7 +9,7 @@
     <el-col>
       <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
         <el-tab-pane label="设备信息" name="first">
-          <DeviceInfo/>
+          <DeviceInfo :deviceInfo="deviceInfo" :productInfo="productInfo"/>
         </el-tab-pane>
         <el-tab-pane label="云端诊断日志" name="second">
           <ListHubLog/>
@@ -29,10 +29,15 @@ import DeviceInfo from './deviceInfo.vue'
 import ListHubLog from './listHubLog.vue'
 import DescribeDeviceData from './describeDeviceData.vue'
 import { ref } from 'vue'
+import {useRoute} from "vue-router";
 const activeName = ref('first')
 const handleClick = (tab, event) => {
   console.log(tab, event)
 }
+const route = useRoute()
+const productInfo = ref(JSON.parse(route.query.productInfo))
+const deviceInfo = ref(JSON.parse(route.query.deviceInfo))
+
 </script>
 
 <script>

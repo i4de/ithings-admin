@@ -1,4 +1,6 @@
 // import lodash from 'lodash' // 引入axios
+import cloneDeep from 'lodash/cloneDeep'
+
 // const lodash = require('lodash')
 export const defultDefine = {
   name: '',
@@ -26,7 +28,7 @@ export const defultDefine = {
 
 export function fmtMapping(mapping) {
   const ret = []
-  if (mapping == undefined) {
+  if (mapping === undefined) {
     return ret
   }
   for (var key in mapping) {
@@ -45,7 +47,7 @@ export function fmtModel(define) {
   //   ret = []
   //   ret.push(de)
   // }
-  if (define == undefined) {
+  if (define === undefined) {
     return ret
   }
   define.forEach((item) => {
@@ -55,7 +57,7 @@ export function fmtModel(define) {
       mode: 'rw',
       define: item.define
     }
-    if (getOne.define == undefined) {
+    if (getOne.define === undefined) {
       getOne.define = item.dataType
     }
     getOne.define = fmtFormDefine(getOne.define)
@@ -72,7 +74,8 @@ export function fmtModelOut(model, defineType) {
     id: model.id,
     mode: 'rw',
   }
-  getOne[defineType] = JSON.parse(JSON.stringify(model.define))
+  getOne[defineType] = cloneDeep(model.define)
+
   return getOne
 }
 
@@ -96,7 +99,7 @@ export function fmtFormDefine(define) {
   newDefine.specs = newDefine.specs || []
   return newDefine
 }
-export function checkTemplateModel(funcType,templateModel, column, oldId) {
+export function checkTemplateModel(funcType, templateModel, column, oldId) {
   try {
     templateModel[funcType].forEach((item, index) => {
       console.log('checkTemplateModel for get', index, item)
@@ -108,7 +111,7 @@ export function checkTemplateModel(funcType,templateModel, column, oldId) {
       }
     })
   } catch (e) {
-    if (e.message == 'succ') {
+    if (e.message === 'succ') {
       return
     } else {
       return e.message
@@ -117,9 +120,8 @@ export function checkTemplateModel(funcType,templateModel, column, oldId) {
   return
 }
 // template 是完整的物模型模板,column是修改后的参数,funcType是物模型操作类型,oldId是操作的id,如果是新增,则为undefined
-export function fmtTemplateModel(funcType,templateModel, column, oldId) {
-  // todo 外面对列的修改会影响到模型的变化,需要排查一下
-  const newCol = JSON.parse(JSON.stringify(column))
+export function fmtTemplateModel(funcType, templateModel, column, oldId) {
+  const newCol = cloneDeep(column)
   console.log('fmtTemplateModel', funcType, oldId, templateModel, newCol)
   try {
     templateModel[funcType].forEach((item, index) => {

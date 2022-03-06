@@ -48,7 +48,7 @@ func (p *ProductApi) FindProductInfo(c *gin.Context) {
 	} else {
 		retJson := map[string]interface{}{}
 		json.Unmarshal([]byte(ret), &retJson)
-		response.OkWithData(gin.H{"productInfo": retJson["info"].([]interface{})[0]}, c)
+		response.OkWithData(gin.H{"productInfo": retJson["list"].([]interface{})[0]}, c)
 	}
 }
 
@@ -66,10 +66,10 @@ func (p *ProductApi) GetProductInfoList(c *gin.Context) {
 		resp := model.ThingsResp{}
 		json.Unmarshal([]byte(ret), &resp)
 		response.OkWithDetailed(response.PageResult{
-			List:     resp.Info,
+			List:     resp.List,
 			Total:    resp.Total,
 			Page:     pageInfo.Page,
-			PageSize: len(resp.Info),
+			PageSize: len(resp.List),
 		}, "获取成功", c)
 	}
 }
