@@ -33,7 +33,7 @@ type GetDeviceInfoReq struct {
 func (d *DeviceApi) FindDeviceInfo(c *gin.Context) {
 	var deviceInfoReq GetDeviceInfoReq
 	_ = c.ShouldBindQuery(&deviceInfoReq)
-	ret, err := Post(fmt.Sprintf("%s/backgrand/dm/getDeviceInfo", global.GVA_CONFIG.Webapi.Addr),
+	ret, err := Post(fmt.Sprintf("%s/open/dm/getDeviceInfo", global.GVA_CONFIG.Webapi.Addr),
 		deviceInfoReq, "application/json")
 	global.GVA_LOG.Error(ret)
 	if err != nil {
@@ -59,7 +59,7 @@ func (d *DeviceApi) GetDeviceInfoList(c *gin.Context) {
 	var pageInfo model.DeviceInfoSearch
 	_ = c.ShouldBindQuery(&pageInfo)
 	global.GVA_LOG.Error(fmt.Sprintf("pageInfo:%+v", pageInfo))
-	ret, err := Post(fmt.Sprintf("%s/backgrand/dm/getDeviceInfo", global.GVA_CONFIG.Webapi.Addr),
+	ret, err := Post(fmt.Sprintf("%s/open/dm/getDeviceInfo", global.GVA_CONFIG.Webapi.Addr),
 		model.GetProductInfoReq{Page: &pageInfo.PageInfo, ProductID: pageInfo.ProductID}, "application/json")
 	global.GVA_LOG.Error(ret)
 
@@ -81,7 +81,7 @@ func (d *DeviceApi) GetDeviceInfoList(c *gin.Context) {
 func (d *DeviceApi) ManageDeviceInfo(c *gin.Context) {
 	var deviceInfo model.ManageReq
 	_ = c.ShouldBindJSON(&deviceInfo)
-	ret, err := Post(fmt.Sprintf("%s/backgrand/dm/manageDevice", global.GVA_CONFIG.Webapi.Addr),
+	ret, err := Post(fmt.Sprintf("%s/open/dm/manageDevice", global.GVA_CONFIG.Webapi.Addr),
 		deviceInfo, "application/json")
 	global.GVA_LOG.Error(fmt.Sprintf("req:%+v|resp=%+v", deviceInfo, ret))
 	if err != nil {
@@ -104,7 +104,7 @@ func (d *DeviceApi) ManageDeviceInfo(c *gin.Context) {
 func (d *DeviceApi) GetDeviceData(c *gin.Context) {
 	var req model.GetDeviceDataReq
 	_ = c.ShouldBindQuery(&req)
-	url := fmt.Sprintf("%s/backgrand/dm/getDeviceData?%v",
+	url := fmt.Sprintf("%s/open/dm/getDeviceData?%v",
 		global.GVA_CONFIG.Webapi.Addr, c.Request.URL.RawQuery)
 	ret, err := Get(url)
 	global.GVA_LOG.Error(ret)
@@ -133,7 +133,7 @@ func (d *DeviceApi) GetDeviceData(c *gin.Context) {
 func (d *DeviceApi) GetDeviceDescribeLog(c *gin.Context) {
 	var req model.GetDeviceDescribeLogReq
 	_ = c.ShouldBindQuery(&req)
-	url := fmt.Sprintf("%s/backgrand/dm/getDeviceDescribeLog?%v",
+	url := fmt.Sprintf("%s/open/dm/getDeviceDescribeLog?%v",
 		global.GVA_CONFIG.Webapi.Addr, c.Request.URL.RawQuery)
 	ret, err := Get(url)
 	global.GVA_LOG.Error(ret)

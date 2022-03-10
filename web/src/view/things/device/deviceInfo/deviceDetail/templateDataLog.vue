@@ -36,6 +36,6 @@ const tableData = ref('')
 
 <script>
 export default {
-  name: 'ListHubLog'
+  name: 'TemplateDataLog'
 }
 </script>

@@ -16,7 +16,7 @@ type ProductApi struct {
 func (p *ProductApi) ManageProductInfo(c *gin.Context) {
 	var productInfo model.ManageReq
 	_ = c.ShouldBindJSON(&productInfo)
-	ret, err := Post(fmt.Sprintf("%s/backgrand/dm/manageProduct", global.GVA_CONFIG.Webapi.Addr),
+	ret, err := Post(fmt.Sprintf("%s/open/dm/manageProduct", global.GVA_CONFIG.Webapi.Addr),
 		productInfo, "application/json")
 	global.GVA_LOG.Error(fmt.Sprintf("req:%+v|resp=%+v", productInfo, ret))
 	if err != nil {
@@ -39,7 +39,7 @@ func (p *ProductApi) ManageProductInfo(c *gin.Context) {
 func (p *ProductApi) FindProductInfo(c *gin.Context) {
 	var productInfo model.GetProductInfoReq
 	_ = c.ShouldBindQuery(&productInfo)
-	ret, err := Post(fmt.Sprintf("%s/backgrand/dm/getProductInfo", global.GVA_CONFIG.Webapi.Addr),
+	ret, err := Post(fmt.Sprintf("%s/open/dm/getProductInfo", global.GVA_CONFIG.Webapi.Addr),
 		model.GetProductInfoReq{ProductID: productInfo.ProductID}, "application/json")
 	global.GVA_LOG.Error(ret)
 	if err != nil {
@@ -55,7 +55,7 @@ func (p *ProductApi) FindProductInfo(c *gin.Context) {
 func (p *ProductApi) GetProductInfoList(c *gin.Context) {
 	var pageInfo model.ProductInfoSearch
 	_ = c.ShouldBindQuery(&pageInfo)
-	ret, err := Post(fmt.Sprintf("%s/backgrand/dm/getProductInfo", global.GVA_CONFIG.Webapi.Addr),
+	ret, err := Post(fmt.Sprintf("%s/open/dm/getProductInfo", global.GVA_CONFIG.Webapi.Addr),
 		model.GetProductInfoReq{Page: &pageInfo.PageInfo}, "application/json")
 	global.GVA_LOG.Info(ret)
 
@@ -78,7 +78,7 @@ func (p *ProductApi) ManageProductTemplate(c *gin.Context) {
 	var req model.ManageProductTemplateReq
 	//req := map[string]interface{}{}
 	_ = c.ShouldBindJSON(&req)
-	ret, err := Post(fmt.Sprintf("%s/backgrand/dm/manageProductTemplate", global.GVA_CONFIG.Webapi.Addr),
+	ret, err := Post(fmt.Sprintf("%s/open/dm/manageProductTemplate", global.GVA_CONFIG.Webapi.Addr),
 		req, "application/json")
 	global.GVA_LOG.Error(fmt.Sprintf("req:%+v|resp=%+v", req, ret))
 	if err != nil {
@@ -92,7 +92,7 @@ func (p *ProductApi) ManageProductTemplate(c *gin.Context) {
 func (p *ProductApi) GetProductTemplate(c *gin.Context) {
 	var req model.GetProductTemplateReq
 	_ = c.ShouldBindQuery(&req)
-	ret, err := Post(fmt.Sprintf("%s/backgrand/dm/getProductTemplate", global.GVA_CONFIG.Webapi.Addr),
+	ret, err := Post(fmt.Sprintf("%s/open/dm/getProductTemplate", global.GVA_CONFIG.Webapi.Addr),
 		req, "application/json")
 	global.GVA_LOG.Info(ret)
 	if err != nil {
