@@ -15,7 +15,7 @@
             <DescribeDeviceData :device-info="deviceInfo" :product-info="productInfo" />
           </el-tab-pane>
           <el-tab-pane label="物模型数据" name="third">
-            <TemplateDataLog />
+            <TemplateDataLog :device-info="deviceInfo" :product-info="productInfo"/>
           </el-tab-pane>
         </el-tabs>
       </el-col>
