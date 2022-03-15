@@ -1,27 +1,19 @@
 <template>
-  <div>
-    <el-row>
-      <el-col>
-        <el-date-picker
-          v-model="timeRange"
-          type="datetimerange"
-          range-separator="To"
-          start-placeholder="Start date"
-          end-placeholder="End date"
-        />
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col>
-        <el-table :data="tableData" border style="width: 100%">
-          <el-table-column prop="dataID" label="属性标识符" />
-          <el-table-column prop="dataName" label="属性名称" />
-          <el-table-column prop="dataType" label="数据类型" />
-          <el-table-column prop="timestamp" label="更新时间" />
-          <el-table-column prop="getValue" label="最新值" />
-        </el-table>
-      </el-col>
-    </el-row>
+  <div class="templateDataLog">
+    <el-date-picker
+            v-model="timeRange"
+            type="datetimerange"
+            range-separator="To"
+            start-placeholder="Start date"
+            end-placeholder="End date"
+    />
+    <el-table :data="tableData" border style="width: 100%">
+      <el-table-column prop="dataID" label="属性标识符" />
+      <el-table-column prop="dataName" label="属性名称" />
+      <el-table-column prop="dataType" label="数据类型" />
+      <el-table-column prop="timestamp" label="更新时间" />
+      <el-table-column prop="getValue" label="最新值" />
+    </el-table>
   </div>
 </template>
 <script setup>
@@ -83,7 +75,8 @@ const getTemplateData = async() => {
   console.log('获取到:', table)
   if (table.code === 0) {
     productTemplate.value = JSON.parse(table.data.template)
-    console.log('getTemplateData', productTemplate.value)
+    console.log('getTemplateData', productTemplate.value.properties)
+    GetDeviceData()
   }
 }
 const deviceData = ref([])
@@ -95,14 +88,21 @@ const GetDeviceData = async() => {
   })
   if (table.code === 0) {
     deviceData.value = table.data.list
+    tableData.value = table.data.list
     console.log('GetDeviceData', deviceData.value)
+
+      const data = fmtPropertyTemplateData(productTemplate.value, deviceData.value)
+      tableData.value = cloneDeep(data)
   }
 }
-await getTemplateData()
-await GetDeviceData()
-const data = fmtPropertyTemplateData(productTemplate.value, deviceData.value)
-tableData.value = JSON.parse(JSON.stringify(data))
-console.log('get template table data', tableData)
+getTemplateData()
+
+//
+// console.log( '1', data )
+//
+// tableData.value = JSON.parse(JSON.stringify(productTemplate.value))
+//
+// console.log('get template table data', tableData.value)
 </script>
 
 <script>
