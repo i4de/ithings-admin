@@ -88,21 +88,13 @@ const GetDeviceData = async() => {
   })
   if (table.code === 0) {
     deviceData.value = table.data.list
-    tableData.value = table.data.list
     console.log('GetDeviceData', deviceData.value)
-
-      const data = fmtPropertyTemplateData(productTemplate.value, deviceData.value)
-      tableData.value = cloneDeep(data)
+    const data = fmtPropertyTemplateData(productTemplate.value, deviceData.value)
+    tableData.value = cloneDeep(data)
+    console.log('get template table data', tableData.value)
   }
 }
 getTemplateData()
-
-//
-// console.log( '1', data )
-//
-// tableData.value = JSON.parse(JSON.stringify(productTemplate.value))
-//
-// console.log('get template table data', tableData.value)
 </script>
 
 <script>
