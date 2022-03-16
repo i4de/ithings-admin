@@ -169,12 +169,20 @@ var carbines = []gormadapter.CasbinRule{
 	{PType: "p", V0: "9528", V1: "/customer/customerList", V2: "GET"},
 	{PType: "p", V0: "9528", V1: "/autoCode/createTemp", V2: "POST"},
 	{PType: "p", V0: "9528", V1: "/user/getUserInfo", V2: "GET"},
+
+	//给things使用
 	{PType: "p", V0: "888", V1: "/things/device/findProductInfo", V2: "GET"},
 	{PType: "p", V0: "888", V1: "/things/device/getProductInfoList", V2: "GET"},
 	{PType: "p", V0: "888", V1: "/things/device/manageProductInfo", V2: "POST"},
 	{PType: "p", V0: "888", V1: "/things/device/findDeviceInfo", V2: "GET"},
 	{PType: "p", V0: "888", V1: "/things/device/getDeviceInfoList", V2: "GET"},
 	{PType: "p", V0: "888", V1: "/things/device/manageDeviceInfo", V2: "POST"},
+	{PType: "p", V0: "888", V1: "/things/device/getUserInfos", V2: "POST"},
+	{PType: "p", V0: "888", V1: "/things/device/getUserCoreList", V2: "GET"},
+	{PType: "p", V0: "888", V1: "/things/device/getProductTemplate", V2: "GET"},
+	{PType: "p", V0: "888", V1: "/things/device/manageProductTemplate", V2: "POST"},
+	{PType: "p", V0: "888", V1: "/things/device/getDeviceData", V2: "GET"},
+	{PType: "p", V0: "888", V1: "/things/device/getDeviceDescribeLog", V2: "GET"},
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)

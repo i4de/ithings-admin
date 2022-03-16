@@ -42,13 +42,17 @@ func (m *menu) Initialize() error {
 		{MenuLevel: 0, Hidden: false, ParentId: "0", Path: "state", Name: "state", Component: "view/system/state.vue", Sort: 6, Meta: system.Meta{Title: "服务器状态", Icon: "cloudy"}},
 		{MenuLevel: 0, Hidden: false, ParentId: "14", Path: "autoCodeAdmin", Name: "autoCodeAdmin", Component: "view/systemTools/autoCodeAdmin/index.vue", Sort: 1, Meta: system.Meta{Title: "自动化代码管理", Icon: "magic-stick"}},
 		{MenuLevel: 0, Hidden: true, ParentId: "14", Path: "autoCodeEdit/:id", Name: "autoCodeEdit", Component: "view/systemTools/autoCode/index.vue", Sort: 0, Meta: system.Meta{Title: "自动化代码（复用）", Icon: "magic-stick"}},
-		{GVA_MODEL: global.GVA_MODEL{ID: 200}, MenuLevel: 0, Hidden: false, ParentId: "0", Path: "things", Name: "things", Component: "view/things/device/index.vue", Sort: 0, Meta: system.Meta{Title: "物联网", Icon: "upload"}},
-		{MenuLevel: 0, Hidden: false, ParentId: "200", Path: "productInfo", Name: "productInfo", Component: "view/things/device/productInfo/productInfo.vue", Sort: 0, Meta: system.Meta{Title: "产品管理", Icon: "magic-stick"}},
-		{MenuLevel: 0, Hidden: true, ParentId: "200", Path: "deviceInfo", Name: "deviceInfo", Component: "view/things/device/deviceInfo/deviceInfo.vue", Sort: 0, Meta: system.Meta{Title: "设备管理", Icon: "magic-stick"}},
-		{MenuLevel: 0, Hidden: false, ParentId: "200", Path: "userGroup", Name: "userGroup", Component: "view/things/user/userGroup/index.vue", Sort: 0, Meta: system.Meta{Title: "用户及设备组管理", Icon: "magic-stick"}},
-		{MenuLevel: 0, Hidden: false, ParentId: "200", Path: "groupInfo", Name: "groupInfo", Component: "view/things/device/group/groupInfo.vue", Sort: 0, Meta: system.Meta{Title: "设备及用户组", Icon: "magic-stick"}},
-		{MenuLevel: 0, Hidden: true, ParentId: "200", Path: "productDetail", Name: "productDetail", Component: "view/things/device/productDetail/index.vue", Sort: 0, Meta: system.Meta{Title: "产品详情", Icon: "magic-stick"}},
-		{MenuLevel: 0, Hidden: false, ParentId: "200", Path: "clientList", Name: "clientList", Component: "view/things/user/userInfo/index.vue", Sort: 0, Meta: system.Meta{Title: "用户列表", Icon: "magic-stick"}},
+
+		//给 things 使用
+		{GVA_MODEL: global.GVA_MODEL{ID: 200}, MenuLevel: 0, ParentId: "0", Path: "things", Name: "things", Hidden: false, Component: "view/things/device/index.vue", Sort: 2, Meta: system.Meta{Title: "物联网", Icon: "upload"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 201}, MenuLevel: 0, ParentId: "200", Path: "productList", Name: "productList", Hidden: false, Component: "view/things/device/productInfo/productList.vue", Sort: 2, Meta: system.Meta{Title: "产品列表", Icon: "goods"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 202}, MenuLevel: 0, ParentId: "200", Path: "deviceList", Name: "deviceList", Hidden: true, Component: "view/things/device/deviceInfo/deviceList.vue", Sort: 2, Meta: system.Meta{Title: "设备列表", Icon: "headset"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 203}, MenuLevel: 0, ParentId: "200", Path: "userGroup", Name: "userGroup", Hidden: true, Component: "view/things/user/userGroup/index.vue", Sort: 2, Meta: system.Meta{Title: "用户及设备组管理", Icon: "headset"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 204}, MenuLevel: 0, ParentId: "200", Path: "groupInfo", Name: "groupInfo", Hidden: true, Component: "view/things/device/group/groupInfo.vue", Sort: 2, Meta: system.Meta{Title: "设备及用户组", Icon: "headset"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 205}, MenuLevel: 0, ParentId: "200", Path: "productDetail", Name: "productDetail", Hidden: true, Component: "view/things/device/productInfo/productDetail/index.vue", Sort: 2, Meta: system.Meta{Title: "产品详情", Icon: "headset"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 206}, MenuLevel: 0, ParentId: "200", Path: "clientList", Name: "clientList", Hidden: false, Component: "view/things/user/userInfo/index.vue", Sort: 2, Meta: system.Meta{Title: "用户列表", Icon: "headset"}},
+		{GVA_MODEL: global.GVA_MODEL{ID: 207}, MenuLevel: 0, ParentId: "200", Path: "deviceDetail", Name: "deviceDetail", Hidden: true, Component: "view/things/device/deviceInfo/deviceDetail/index.vue", Sort: 2, Meta: system.Meta{Title: "设备详情", Icon: "headset"}},
+
 	}
 
 	if err := global.GVA_DB.Create(&entities).Error; err != nil { // 创建 model.User 初始化数据

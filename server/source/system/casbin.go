@@ -128,6 +128,11 @@ func (c *casbin) Initialize() error {
 		{PType: "p", V0: "888", V1: "/things/device/manageDeviceInfo", V2: "POST"},
 		{PType: "p", V0: "888", V1: "/things/device/getUserInfos", V2: "POST"},
 		{PType: "p", V0: "888", V1: "/things/device/getUserCoreList", V2: "GET"},
+		{PType: "p", V0: "888", V1: "/things/device/getProductTemplate", V2: "GET"},
+		{PType: "p", V0: "888", V1: "/things/device/manageProductTemplate", V2: "POST"},
+		{PType: "p", V0: "888", V1: "/things/device/getDeviceData", V2: "GET"},
+		{PType: "p", V0: "888", V1: "/things/device/getDeviceDescribeLog", V2: "GET"},
+
 
 		{PType: "p", V0: "8881", V1: "/base/login", V2: "POST"},
 		{PType: "p", V0: "8881", V1: "/user/register", V2: "POST"},

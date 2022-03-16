@@ -99,6 +99,12 @@ var apis = []system.SysApi{
 	{global.GVA_MODEL{ID: 203, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/findDeviceInfo", "根据ID获取设备信息", "设备管理", "GET"},
 	{global.GVA_MODEL{ID: 204, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/getDeviceInfoList", "设备列表", "设备管理", "GET"},
 	{global.GVA_MODEL{ID: 205, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/manageDeviceInfo", "新增修改删除设备信息", "设备管理", "POST"},
+	{global.GVA_MODEL{ID: 206, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/getUserInfos", "获取用户信息", "设备管理", "POST"},
+	{global.GVA_MODEL{ID: 207, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/getUserCoreList", "获取用户核心信息列表", "设备管理", "GET"},
+	{global.GVA_MODEL{ID: 208, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/getProductTemplate", "根据ID获取产品物模型信息", "设备管理", "GET"},
+	{global.GVA_MODEL{ID: 209, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/manageProductTemplate", "更新产品物模型", "设备管理", "POST"},
+	{global.GVA_MODEL{ID: 210, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/getDeviceData", "获取设备数据", "设备管理", "GET"},
+	{global.GVA_MODEL{ID: 211, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/things/device/getDeviceDescribeLog", "获取设备日志", "设备管理", "GET"},
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)

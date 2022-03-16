@@ -128,6 +128,10 @@ func (a *api) Initialize() error {
 		{ApiGroup: "things", Method: "POST", Path: "/things/device/manageDeviceInfo", Description: "新增修改删除设备信息"},
 		{ApiGroup: "things", Method: "POST", Path: "/things/device/getUserInfos", Description: "获取用户信息"},
 		{ApiGroup: "things", Method: "GET", Path: "/things/device/getUserCoreList", Description: "获取用户核心信息列表"},
+		{ApiGroup: "things", Method: "GET", Path: "/things/device/getProductTemplate", Description: "根据ID获取产品物模型信息"},
+		{ApiGroup: "things", Method: "POST", Path: "/things/device/manageProductTemplate", Description: "更新产品物模型"},
+		{ApiGroup: "things", Method: "GET", Path: "/things/device/getDeviceData", Description: "获取设备数据"},
+		{ApiGroup: "things", Method: "GET", Path: "/things/device/getDeviceDescribeLog", Description: "获取设备日志"},
 	}
 	if err := global.GVA_DB.Create(&entities).Error; err != nil {
 		return errors.Wrap(err, a.TableName()+"表数据初始化失败!")
