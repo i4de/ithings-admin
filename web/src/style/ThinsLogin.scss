@@ -1,0 +1,180 @@
+#userLayout {
+    .login-register-box {
+        height: 100vh;
+
+        .login-box {
+            width: 40vw;
+            position: absolute;
+            left: 50%;
+            margin-left: -22vw;
+            top: 5vh;
+
+            .logo {
+                height: 35vh;
+                width: 35vh;
+            }
+        }
+    }
+
+    .link-icon {
+        width: 20px;
+        min-width: 20px;
+        height: 20px;
+        border-radius: 10px;
+    }
+
+    .vPic {
+        width: 33%;
+        height: 38px;
+        float: right !important;
+        background: #ccc;
+
+        img {
+            cursor: pointer;
+            vertical-align: middle;
+        }
+    }
+
+    .logo_login {
+        width: 100px;
+    }
+
+    #userLayout.user-layout-wrapper {
+        height: 100%;
+        position: relative;
+
+        &.mobile {
+            .container {
+                .main {
+                    max-width: 368px;
+                    width: 98%;
+                }
+            }
+        }
+
+        .container {
+            position: relative;
+            overflow: auto;
+            width: 100%;
+            min-height: 100%;
+            background: #f0f2f5 url("@/assets/login.png") no-repeat 50%;
+            //background-size: 100%;
+            background-size: cover;
+            padding: 110px 0 144px;
+
+            a {
+                text-decoration: none;
+            }
+            .my-container {
+                position: relative;
+                top: 0; bottom: 0;
+                left: 0; right: 0;
+                width: 500px;
+                height: 350px;
+                line-height: 2;
+                margin: auto;
+                border-radius: 5px;
+                background: rgba(134, 216, 238, 0.3);
+                box-shadow: 3px 3px 6px 3px rgba(0, 0, 0, .3);
+                .top {
+                    text-align: center;
+                    margin-top: -40px;
+
+                    .header {
+                        height: 44px;
+                        line-height: 44px;
+                        margin-bottom: 30px;
+
+                        .badge {
+                            position: absolute;
+                            display: inline-block;
+                            line-height: 1;
+                            vertical-align: middle;
+                            margin-left: -12px;
+                            margin-top: -10px;
+                            opacity: 0.8;
+                        }
+
+                        .logo {
+                            height: 44px;
+                            vertical-align: top;
+                            margin-right: 16px;
+                            border-style: none;
+                        }
+
+                        .title {
+                            font-size: 33px;
+                            color: rgba(252, 251, 251, 0.85);
+                            font-family: Avenir, "Helvetica Neue", Arial, Helvetica, sans-serif;
+                            font-weight: 600;
+                            position: relative;
+                            top: 2px;
+                        }
+                    }
+
+                    .desc {
+                        font-size: 14px;
+                        color: rgba(0, 0, 0, 0.45);
+                        margin-top: 12px;
+                    }
+                }
+
+                .main {
+                    min-width: 260px;
+                    width: 368px;
+                    margin: 0 auto;
+                }
+            }
+
+            .footer {
+                position: relative;
+                width: 100%;
+                padding: 0 20px;
+                margin: 40px 0 10px;
+                text-align: center;
+
+                .links {
+                    margin-bottom: 8px;
+                    font-size: 14px;
+                    width: 330px;
+                    display: inline-flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    padding-right: 40px;
+
+                    a {
+                        color: rgba(0, 0, 0, 0.45);
+                        transition: all 0.3s;
+                    }
+                }
+
+                .copyright {
+                    color: rgba(0, 0, 0, 0.45);
+                    font-size: 14px;
+                    padding-right: 40px;
+                }
+            }
+        }
+    }
+}
+
+//小屏幕不显示右侧，将登陆框居中
+@media (max-width: 750px) {
+    .login_panle_right {
+        display: none;
+    }
+    .login_panle {
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+    }
+    .login_panle_form {
+        width: 100%;
+    }
+}
+
+
+/*
+  powerBy : bypanghu@163.com
+*/

@@ -17,6 +17,9 @@
           <el-tab-pane label="物模型数据" name="third">
             <TemplateDataLog :device-info="deviceInfo" :product-info="productInfo"/>
           </el-tab-pane>
+          <el-tab-pane label="在线调试" name="forth">
+            <DeviceDebug :device-info="deviceInfo" :product-info="productInfo"/>
+          </el-tab-pane>
         </el-tabs>
       </el-col>
     </el-row>
@@ -28,6 +31,7 @@
 import DeviceInfo from './deviceInfo.vue'
 import TemplateDataLog from './templateDataLog.vue'
 import DescribeDeviceData from './describeDeviceData.vue'
+import DeviceDebug from './deviceDebug.vue'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 const activeName = ref('first')

@@ -1,103 +1,68 @@
 <template>
-  <div id="userLayout">
-    <div class="login_panle">
-      <div class="login_panle_form">
-        <div class="login_panle_form_title">
-          <img
-            class="login_panle_form_title_logo"
-            :src="$GIN_VUE_ADMIN.appLogo"
-            alt
-          >
-          <p class="login_panle_form_title_p">{{ $GIN_VUE_ADMIN.appName }}</p>
+  <div id="userLayout" class="user-layout-wrapper">
+    <div class="container">
+      <div class="my-container">
+        <div class="top">
+          <div class="header">
+            <a href="/">
+              <!-- <img src="~@/assets/logo.png" class="logo" alt="logo" /> -->
+              <span class="title">I Things 物联</span>
+            </a>
+          </div>
         </div>
-        <el-form
-          ref="loginForm"
-          :model="loginFormData"
-          :rules="rules"
-          @keyup.enter="submitForm"
-        >
-          <el-form-item prop="username">
-            <el-input
-              v-model="loginFormData.username"
-              placeholder="请输入用户名"
-            >
-              <template #suffix>
-                <span class="input-icon">
-                  <el-icon>
-                    <user />
-                  </el-icon>
-                </span>
-              </template>
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input
-              v-model="loginFormData.password"
-              :type="lock === 'lock' ? 'password' : 'text'"
-              placeholder="请输入密码"
-            >
-              <template #suffix>
-                <span class="input-icon">
-                  <el-icon>
-                    <component
-                      :is="lock"
-                      @click="changeLock"
-                    />
-                  </el-icon>
-                </span>
-              </template>
-            </el-input>
-          </el-form-item>
-          <el-form-item style="position: relative" prop="captcha">
-            <el-input
-              v-model="loginFormData.captcha"
-              placeholder="请输入验证码"
-              style="width: 60%"
-            />
-            <div class="vPic">
-              <img
-                v-if="picPath"
-                :src="picPath"
-                alt="请输入验证码"
-                @click="loginVerify()"
+        <div class="main">
+          <el-form
+              :model="loginFormData"
+              :rules="rules"
+              ref="loginForm"
+              @keyup.enter.native="submitForm"
+          >
+            <el-form-item prop="username">
+              <el-input
+                  placeholder="请输入用户名"
+                  v-model="loginFormData.username"
               >
-            </div>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              type="primary"
-              style="width: 46%"
-              @click="checkInit"
-            >前往初始化</el-button>
-            <el-button
-              type="primary"
-              style="width: 46%; margin-left: 8%"
-              @click="submitForm"
-            >登 录</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
-      <div class="login_panle_right" />
-      <div class="login_panle_foot">
-        <div class="links">
-          <a href="http://doc.henrongyi.top/" target="_blank">
-            <img src="@/assets/docs.png" class="link-icon">
-          </a>
-          <a href="https://support.qq.com/product/371961" target="_blank">
-            <img src="@/assets/kefu.png" class="link-icon">
-          </a>
-          <a
-            href="https://github.com/flipped-aurora/gin-vue-admin"
-            target="_blank"
-          >
-            <img src="@/assets/github.png" class="link-icon">
-          </a>
-          <a href="https://space.bilibili.com/322210472" target="_blank">
-            <img src="@/assets/video.png" class="link-icon">
-          </a>
-        </div>
-        <div class="copyright">
-          <bootomInfo />
+                <i
+                    class="el-input__icon el-icon-user"
+                    slot="suffix"
+                ></i></el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input
+                  :type="lock === 'lock' ? 'password' : 'text'"
+                  placeholder="请输入密码"
+                  v-model="loginFormData.password"
+              >
+                <i
+                    :class="'el-input__icon el-icon-' + lock"
+                    @click="changeLock"
+                    slot="suffix"
+                ></i>
+              </el-input>
+            </el-form-item>
+            <el-form-item style="position:relative">
+              <el-input
+                  v-model="loginFormData.captcha"
+                  name="logVerify"
+                  placeholder="请输入验证码"
+                  style="width:60%"
+              />
+              <div class="vPic">
+                <img
+                    v-if="picPath"
+                    :src="picPath"
+                    alt="请输入验证码"
+                    @click="loginVerify()"
+                >
+              </div>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm" style="width:100%"
+              >登 录
+              </el-button
+              >
+            </el-form-item>
+          </el-form>
         </div>
       </div>
     </div>
@@ -114,7 +79,7 @@ export default {
 import { useStore } from 'vuex'
 import { captcha } from '@/api/user'
 import { checkDB } from '@/api/initdb'
-import bootomInfo from '@/view/layout/bottomInfo/bottomInfo.vue'
+// import bootomInfo from '@/view/layout/bottomInfo/bottomInfo.vue'
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
@@ -214,5 +179,162 @@ const checkInit = async() => {
 </script>
 
 <style lang="scss" scoped>
-@import "@/style/newLogin.scss";
+.login-register-box {
+  height: 100vh;
+
+  .login-box {
+    width: 40vw;
+    position: absolute;
+    left: 50%;
+    margin-left: -22vw;
+    top: 5vh;
+
+    .logo {
+      height: 35vh;
+      width: 35vh;
+    }
+  }
+}
+
+.link-icon {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+}
+
+.vPic {
+  width: 33%;
+  height: 38px;
+  float: right !important;
+  background: #ccc;
+  img {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+}
+
+.logo_login {
+  width: 100px;
+}
+
+#userLayout.user-layout-wrapper {
+  height: 100%;
+  position: relative;
+
+  &.mobile {
+    .container {
+      .main {
+        max-width: 368px;
+        width: 98%;
+      }
+    }
+  }
+
+  .container {
+    position: relative;
+    overflow: auto;
+    width: 100%;
+    min-height: 100%;
+    background: #f0f2f5 url("@/assets/loginBackground.png") no-repeat 50%;
+    //background-size: 100%;
+    background-size: cover;
+    padding: 110px 0 144px;
+
+    a {
+      text-decoration: none;
+    }
+    .my-container {
+      position: relative;
+      top: 0; bottom: 0;
+      left: 0; right: 0;
+      width: 500px;
+      height: 350px;
+      line-height: 2;
+      margin: auto;
+      border-radius: 5px;
+      background: rgba(134, 216, 238, 0.3);
+      box-shadow: 3px 3px 6px 3px rgba(0, 0, 0, .3);
+      .top {
+        text-align: center;
+        margin-top: -40px;
+
+        .header {
+          height: 44px;
+          line-height: 44px;
+          margin-bottom: 30px;
+
+          .badge {
+            position: absolute;
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+            margin-left: -12px;
+            margin-top: -10px;
+            opacity: 0.8;
+          }
+
+          .logo {
+            height: 44px;
+            vertical-align: top;
+            margin-right: 16px;
+            border-style: none;
+          }
+
+          .title {
+            font-size: 33px;
+            color: rgba(245, 236, 236, 0.85);
+            font-family: Avenir, "Helvetica Neue", Arial, Helvetica, sans-serif;
+            font-weight: 600;
+            position: relative;
+            top: 2px;
+          }
+        }
+
+        .desc {
+          font-size: 14px;
+          color: rgba(0, 0, 0, 0.45);
+          margin-top: 12px;
+        }
+      }
+
+      .main {
+        min-width: 260px;
+        width: 368px;
+        margin: 0 auto;
+      }
+    }
+
+    .footer {
+      position: relative;
+      width: 100%;
+      padding: 0 20px;
+      margin: 40px 0 10px;
+      text-align: center;
+
+      .links {
+        margin-bottom: 8px;
+        font-size: 14px;
+        width: 330px;
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-right: 40px;
+
+        a {
+          color: rgba(0, 0, 0, 0.45);
+          transition: all 0.3s;
+        }
+      }
+
+      .copyright {
+        color: rgba(0, 0, 0, 0.45);
+        font-size: 14px;
+        padding-right: 40px;
+      }
+    }
+  }
+}
 </style>
