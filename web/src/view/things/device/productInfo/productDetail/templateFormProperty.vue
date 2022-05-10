@@ -110,21 +110,21 @@ const props = defineProps({
         mode: 'rw',
         define: {
           type: 'int',
-          min: 0,
-          max: 100,
-          start: 0,
-          step: 1,
+          min: '0',
+          max: '100',
+          start: '0',
+          step: '1',
           unit: '',
           maping: {
-            0: '关',
-            1: '开'
+            '0': '关',
+            '1': '开'
           },
           arrayInfo: {
             type: 'int',
-            min: 0,
-            max: 100,
-            start: 0,
-            step: 1,
+            min: '0',
+            max: '100',
+            start: '0',
+            step: '1',
             unit: '',
             specs: []
           },
@@ -134,10 +134,10 @@ const props = defineProps({
               name: 'GPS经度',
               dataType: {
                 type: 'float',
-                min: -180,
-                max: 180,
-                start: 0,
-                step: 0.001,
+                min: '-180',
+                max: '180',
+                start: '0',
+                step: '0.001',
                 unit: '度'
               }
             }]

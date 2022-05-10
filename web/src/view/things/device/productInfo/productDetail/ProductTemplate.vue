@@ -232,18 +232,17 @@ const funcType = ref('properties')
 const propertyForm = ref({
   name: '',
   id: '',
-  dataType: 'bool',
   mode: 'rw',
   define: {
     type: 'int',
-    min: 0,
-    max: 100,
-    start: 0,
-    step: 1,
+    min: '0',
+    max: '100',
+    start: '0',
+    step: '1',
     unit: '',
     maping: {
-      0: '关',
-      1: '开'
+      '0': '关',
+      '1': '开'
     }
   },
   desc: ''

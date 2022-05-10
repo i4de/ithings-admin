@@ -63,14 +63,14 @@ const props = defineProps({
         mode: 'rw',
         define: {
           type: 'int',
-          min: 0,
-          max: 100,
-          start: 0,
-          step: 1,
+          min: '0',
+          max: '100',
+          start: '0',
+          step: '1',
           unit: '',
           maping: {
-            0: '关',
-            1: '开'
+            '0': '关',
+            '1': '开'
           }
         },
         desc: ''
@@ -93,18 +93,17 @@ console.log('templateForm', props.type, props.productID, props.temp, templateMod
 const defaultProperty = {
   name: '',
   id: '',
-  dataType: 'bool',
   mode: 'rw',
   define: {
     type: 'int',
-    min: 0,
-    max: 100,
-    start: 0,
-    step: 1,
+    min: '0',
+    max: '100',
+    start: '0',
+    step: '1',
     unit: '',
     maping: {
-      0: '关',
-      1: '开'
+      '0': '关',
+      '1': '开'
     }
   },
   desc: ''

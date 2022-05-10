@@ -36,7 +36,6 @@
       <el-table-column label="设备类型" prop="deviceType" width="120">
         <template #default="scope">{{ DeviceTypeArr[scope.row.deviceType] }}</template>
       </el-table-column>
-      <el-table-column label="产品品类" prop="categoryID" width="120" />
       <el-table-column label="通讯方式" width="120">
         <template #default="scope">{{ NetTypeArr[scope.row.netType] }}</template>
       </el-table-column>
@@ -91,9 +90,6 @@
               :value="item.value"
             />
           </el-select>
-        </el-form-item>
-        <el-form-item label="产品品类:">
-          <el-input v-model.number="formData.categoryID" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="通讯方式:">
           <el-select v-model="formData.netType" placeholder="请选择">
@@ -152,7 +148,6 @@ const formData = ref({
   productName: '',
   authMode: 1,
   deviceType: 1,
-  categoryID: '',
   netType: 1,
   dataProto: 1,
   autoRegister: 1,
@@ -248,7 +243,6 @@ const closeDialog=()=> {
     productID: '',
     authMode: 0,
     deviceType: 0,
-    categoryID: 0,
     netType: 0,
     dataProto: 0,
     autoRegister: 0,
