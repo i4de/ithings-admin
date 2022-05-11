@@ -115,7 +115,7 @@ const props = defineProps({
           start: '0',
           step: '1',
           unit: '',
-          maping: {
+          mapping: {
             '0': '关',
             '1': '开'
           },
@@ -178,7 +178,16 @@ const onChange = (type) => {
 const onDefineChange = (type) => {
   console.log('templateFormProperty onDefineChange', type, tableData.value.define[type])
   if (tableData.value.define[type] !== undefined) {
-    props.modelValue.define[type] = tableData.value.define[type]
+    switch (type) {
+      case 'min':
+      case 'max':
+      case 'start':
+      case 'step':
+        props.modelValue.define[type] = String(tableData.value.define[type])
+        break
+      default:
+        props.modelValue.define[type] = tableData.value.define[type]
+    }
   } else {
     // 这些都是define 以外的
     alert('onDefineChange err:' + type)

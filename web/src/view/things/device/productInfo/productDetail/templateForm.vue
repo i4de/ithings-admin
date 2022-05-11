@@ -68,7 +68,7 @@ const props = defineProps({
           start: '0',
           step: '1',
           unit: '',
-          maping: {
+          mapping: {
             '0': '关',
             '1': '开'
           }
@@ -101,7 +101,7 @@ const defaultProperty = {
     start: '0',
     step: '1',
     unit: '',
-    maping: {
+    mapping: {
       '0': '关',
       '1': '开'
     }

@@ -240,7 +240,7 @@ const propertyForm = ref({
     start: '0',
     step: '1',
     unit: '',
-    maping: {
+    mapping: {
       '0': '关',
       '1': '开'
     }
